@@ -1,0 +1,41 @@
+.list-controls {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.export-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filters {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.range-field {
+  min-width: 160px;
+}
+
+.list-card {
+  padding: 16px 0;
+}
+
+.mat-mdc-table th,
+.mat-mdc-table td {
+  padding: 16px;
+  white-space: nowrap;
+}
+
+.mat-mdc-table td {
+  white-space: normal;
+}
