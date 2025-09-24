@@ -1,6 +1,12 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ListFilters, TableData } from '../../shared/interfaces';
-import { DataService } from '../../services/data.service';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
+import { ListFilters, TableData } from "../../shared/interfaces";
+import { DataService } from "../../services/data.service";
 
 interface ColumnConfig {
   key: string;
@@ -8,48 +14,59 @@ interface ColumnConfig {
 }
 
 @Component({
-  selector: 'app-customer-list',
+  selector: "app-customer-list",
   standalone: false,
-  templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.css']
+  templateUrl: "./customer-list.component.html",
+  styleUrls: ["./customer-list.component.css"],
 })
 export class CustomerListComponent implements OnInit, OnChanges {
-  @Input() selectedMonth = 'September';
-  @Input() selectedYear = '2024';
+  @Input() selectedMonth = "September";
+  @Input() selectedYear = "2024";
 
   listFilters: ListFilters = {
-    multipleCustomers: '',
-    customer: '',
-    status: '',
-    month: '',
-    year: '',
-    rangeFrom: '',
-    rangeTo: ''
+    multipleCustomers: "",
+    customer: "",
+    status: "",
+    month: "",
+    year: "",
+    rangeFrom: "",
+    rangeTo: "",
   };
 
   months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December', 'None'
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+    "None",
   ];
 
-  years = ['2025', '2024', '2023', '2022', '2021'];
+  years = ["2025", "2024", "2023", "2022", "2021"];
 
   columns: ColumnConfig[] = [
-    { key: 'col1', label: 'Product' },
-    { key: 'col2', label: 'Bidder' },
-    { key: 'col3', label: 'Status' },
-    { key: 'col4', label: 'Month' },
-    { key: 'col5', label: 'Year' },
-    { key: 'col6', label: 'Bid Volume' },
-    { key: 'col7', label: 'Bid Price' },
-    { key: 'col8', label: 'Final Awarded Volume' },
-    { key: 'col9', label: 'Volume Takes' },
-    { key: 'col10', label: 'Additional Volumes' },
-    { key: 'col11', label: '12 Month RLF' },
-    { key: 'col12', label: 'Comments' }
+    { key: "col1", label: "Product" },
+    { key: "col2", label: "Bidder" },
+    { key: "col3", label: "Status" },
+    { key: "col4", label: "Month" },
+    { key: "col5", label: "Year" },
+    { key: "col6", label: "Bid Volume" },
+    { key: "col7", label: "Bid Price" },
+    { key: "col8", label: "Final Awarded Volume" },
+    { key: "col9", label: "Volume Takes" },
+    { key: "col10", label: "Additional Volumes" },
+    { key: "col11", label: "12 Month RLF" },
+    { key: "col12", label: "Comments" },
   ];
 
-  displayedColumns = this.columns.map(column => column.key);
+  displayedColumns = this.columns.map((column) => column.key);
   listTableData: TableData[] = [];
 
   constructor(private dataService: DataService) {}
@@ -60,14 +77,15 @@ export class CustomerListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedMonth'] || changes['selectedYear']) {
+    if (changes["selectedMonth"] || changes["selectedYear"]) {
       this.updateFiltersFromInput();
       this.loadData();
     }
   }
 
   updateFiltersFromInput(): void {
-    this.listFilters.month = this.selectedMonth !== 'None' ? this.selectedMonth.toLowerCase() : '';
+    this.listFilters.month =
+      this.selectedMonth !== "None" ? this.selectedMonth.toLowerCase() : "";
     this.listFilters.year = this.selectedYear;
   }
 
@@ -81,7 +99,7 @@ export class CustomerListComponent implements OnInit, OnChanges {
   }
 
   resetListFilter(key: keyof ListFilters): void {
-    this.listFilters[key] = '';
+    this.listFilters[key] = "";
     this.loadData();
   }
 
