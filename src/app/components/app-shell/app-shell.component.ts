@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { SecretTableData } from '../../shared/interfaces';
 import { mockSecretTableData } from '../../shared/mock-data';
 
 type ShellTabId = 'reports' | 'tender-awards' | 'customers';
 
-type TabConfig = { id: ShellTabId; label: string; route: string };
+type TabConfig = { id: ShellTabId; label: string };
 
 @Component({
   selector: 'app-shell',
@@ -18,9 +18,9 @@ type TabConfig = { id: ShellTabId; label: string; route: string };
 })
 export class AppShellComponent implements OnInit, OnDestroy {
   readonly tabs: TabConfig[] = [
-    { id: 'reports', label: 'Bidding Reports', route: 'reports' },
-    { id: 'tender-awards', label: 'Tender Awards', route: 'tender-awards' },
-    { id: 'customers', label: 'Customer List', route: 'customers' }
+    { id: 'reports', label: 'Bidding Reports' },
+    { id: 'tender-awards', label: 'Tender Awards' },
+    { id: 'customers', label: 'Customer List' }
   ];
 
   readonly months = [
@@ -49,25 +49,44 @@ export class AppShellComponent implements OnInit, OnDestroy {
   secretTableData: SecretTableData[] = mockSecretTableData;
 
   private readonly destroy$ = new Subject<void>();
+  private readonly defaultTab: ShellTabId = 'reports';
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.updateActiveTab(this.router.url);
+    this.route.queryParamMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        const tabParam = params.get('tab');
+        const resolvedTab = this.resolveTabFromQuery(tabParam);
 
-    this.router.events
-      .pipe(
-        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(event => {
-        this.updateActiveTab(event.urlAfterRedirects);
+        if (tabParam !== resolvedTab) {
+          this.navigateToTab(resolvedTab, true);
+          return;
+        }
+
+        this.setActiveTab(resolvedTab);
       });
+
+    if (!this.route.snapshot.queryParamMap.has('tab')) {
+      this.navigateToTab(this.defaultTab, true);
+    }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  selectTab(tabId: ShellTabId): void {
+    if (this.activeTab === tabId) {
+      return;
+    }
+
+    this.navigateToTab(tabId);
   }
 
   openSecretPopup(): void {
@@ -80,30 +99,24 @@ export class AppShellComponent implements OnInit, OnDestroy {
     this.showSecretPopup = false;
   }
 
-  private updateActiveTab(url: string): void {
-    const tabFromUrl = this.resolveTabFromUrl(url);
-    this.activeTab = tabFromUrl;
+  private setActiveTab(tab: ShellTabId): void {
+    this.activeTab = tab;
 
-    if (tabFromUrl !== 'customers') {
+    if (tab !== 'customers') {
       this.showSecretPopup = false;
-    }
-
-    if (url === '/' || url === '') {
-      this.router.navigate(['/reports']);
     }
   }
 
-  private resolveTabFromUrl(url: string): ShellTabId {
-    const cleanPath = url.replace(/^\//, '').split('?')[0].split('#')[0];
+  private navigateToTab(tab: ShellTabId, replaceUrl = false): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tab },
+      replaceUrl
+    });
+  }
 
-    if (cleanPath.startsWith('tender-awards')) {
-      return 'tender-awards';
-    }
-
-    if (cleanPath.startsWith('customers')) {
-      return 'customers';
-    }
-
-    return 'reports';
+  private resolveTabFromQuery(value: string | null): ShellTabId {
+    const validTab = this.tabs.find(tab => tab.id === value)?.id;
+    return validTab ?? this.defaultTab;
   }
 }
