@@ -1,0 +1,322 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-size: 16px;
+    --background: #ffffff;
+    --foreground: oklch(0.145 0 0);
+    --card: #ffffff;
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: #030213;
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(0.95 0.0058 264.53);
+    --secondary-foreground: #030213;
+    --muted: #ececf0;
+    --muted-foreground: #717182;
+    --accent: #e9ebef;
+    --accent-foreground: #030213;
+    --destructive: #d4183d;
+    --destructive-foreground: #ffffff;
+    --border: rgba(0, 0, 0, 0.1);
+    --input: transparent;
+    --input-background: #f3f3f5;
+    --switch-background: #cbced4;
+    --font-weight-medium: 500;
+    --font-weight-normal: 400;
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+    --radius: 0.625rem;
+  }
+
+  [data-theme="dark"] {
+    --background: #1a1a1a;
+    --foreground: #ffffff;
+    --card: #2a2a2a;
+    --card-foreground: #ffffff;
+    --popover: #2a2a2a;
+    --popover-foreground: #ffffff;
+    --primary: #ffffff;
+    --primary-foreground: #000000;
+    --secondary: #3a3a3a;
+    --secondary-foreground: #ffffff;
+    --muted: #2a2a2a;
+    --muted-foreground: #b4b4b4;
+    --accent: #3a3a3a;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: rgba(255, 255, 255, 0.15);
+    --input: transparent;
+    --input-background: #2a2a2a;
+    --switch-background: #4a4a4a;
+    --ring: rgba(255, 255, 255, 0.3);
+    --chart-1: #60a5fa;
+    --chart-2: #34d399;
+    --chart-3: #a78bfa;
+    --chart-4: #fbbf24;
+    --chart-5: #f87171;
+
+    /* Glassmorphism variables for dark theme */
+    --shadow-4: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --backdrop-filter-panel: blur(16px) saturate(180%);
+    --base-card-surface-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    --card-background-color: rgba(42, 42, 42, 0.8);
+    --hero-card-background-color: rgba(42, 42, 42, 0.9);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+@layer base {
+  h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .wrap-text {
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 200px;
+  }
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+/* Dark theme specific styles */
+[data-theme="dark"] {
+  /* Card and panel styles with glassmorphism */
+  .glass-card {
+    background: var(--card-background-color);
+    backdrop-filter: var(--backdrop-filter-panel);
+    box-shadow: var(--base-card-surface-box-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Text readability improvements */
+  .text-content {
+    color: var(--foreground);
+  }
+
+  /* Table styling for dark theme */
+  .dark-table {
+    background: var(--hero-card-background-color);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+  }
+
+  .dark-table th,
+  .dark-table td {
+    border-color: var(--border);
+    color: var(--foreground);
+  }
+
+  /* Input styling for dark theme */
+  .dark-input {
+    background: var(--input-background);
+    color: var(--foreground);
+    border-color: var(--border);
+  }
+
+  /* Button styling for dark theme */
+  .dark-button {
+    background: var(--accent);
+    color: var(--accent-foreground);
+    border-color: var(--border);
+  }
+
+  .dark-button:hover {
+    background: var(--secondary);
+  }
+}
+
+/* Enhanced shadows for light theme */
+:root {
+  /* Better shadow distribution for light theme */
+  --light-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --light-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --light-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --light-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --light-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --light-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Improved glassmorphism containers */
+.glass-container {
+  box-shadow: var(--light-shadow-xl);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .glass-container {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  /* Mobile adjustments */
+  .mobile-stack {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .mobile-full {
+    width: 100% !important;
+  }
+
+  .mobile-text-sm {
+    font-size: 0.875rem !important;
+  }
+
+  .mobile-p-4 {
+    padding: 1rem !important;
+  }
+
+  .mobile-gap-2 {
+    gap: 0.5rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Small mobile adjustments */
+  .sm-mobile-text-xs {
+    font-size: 0.75rem !important;
+  }
+
+  .sm-mobile-p-2 {
+    padding: 0.5rem !important;
+  }
+
+  .sm-mobile-hidden {
+    display: none !important;
+  }
+}
+
+/* Global dark theme overrides */
+[data-theme="dark"] * {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Enhanced table responsiveness */
+.responsive-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.responsive-table table {
+  min-width: 800px;
+  width: 100%;
+}
+
+.responsive-table th {
+  white-space: nowrap;
+  padding: 1rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.responsive-table td {
+  padding: 1rem 0.75rem;
+  font-size: 0.875rem;
+  vertical-align: top;
+}
+
+/* Mobile table adjustments */
+@media (max-width: 768px) {
+  .responsive-table th,
+  .responsive-table td {
+    padding: 0.75rem 0.5rem !important;
+    font-size: 0.8125rem !important;
+  }
+
+  .responsive-table th {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Improved table cell wrapping */
+.wrap-text {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px;
+}
+
+/* Better table scrolling */
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="dark"] .table-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .table-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
