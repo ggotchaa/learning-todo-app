@@ -1,239 +1,114 @@
-<!-- Export Button -->
-<div class="mb-4 flex justify-start">
-  <button class="bg-green-500/80 dark:bg-green-600/80 text-white backdrop-blur-md border border-white/30 dark:border-gray-600/30 hover:bg-green-600/80 dark:hover:bg-green-700/90 px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 text-sm sm:text-base mobile-text-sm">
-    <ng-icon name="lucideFileSpreadsheet" class="h-4 w-4"></ng-icon>
-    Export to Excel
-  </button>
-</div>
-
-<!-- Controls Panel -->
-<div class="mb-6 bg-white/30 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl p-4 sm:p-6 shadow-xl dark:shadow-2xl glass-container">
-  <!-- Action Buttons -->
-  <div class="mb-4 flex flex-wrap gap-2 sm:gap-3">
-    <button class="bg-blue-500/80 dark:bg-blue-600/80 text-white backdrop-blur-md border border-white/30 dark:border-gray-600/30 px-3 sm:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-600/90 dark:hover:bg-blue-700/90 text-sm sm:text-base mobile-text-sm">
-      All
-    </button>
-    <button class="bg-purple-500/80 dark:bg-purple-600/80 text-white backdrop-blur-md border border-white/30 dark:border-gray-600/30 px-3 sm:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-purple-600/90 dark:hover:bg-purple-700/90 text-sm sm:text-base mobile-text-sm">
-      Propane
-    </button>
-    <button class="bg-orange-500/80 dark:bg-orange-600/80 text-white backdrop-blur-md border border-white/30 dark:border-gray-600/30 px-3 sm:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-orange-600/90 dark:hover:bg-orange-700/90 text-sm sm:text-base mobile-text-sm">
-      Butane
+<mat-card class="material-card list-controls">
+  <div class="export-row">
+    <button mat-raised-button color="accent">
+      <ng-icon name="lucideFileSpreadsheet"></ng-icon>
+      Export to Excel
     </button>
   </div>
 
-  <!-- Dropdown Filters -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4">
-    <div class="space-y-2">
-      <div class="flex items-center gap-2">
-        <select
+  <div class="filters">
+    <div class="filter-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Multiple Bidders</mat-label>
+        <mat-select
           [(ngModel)]="listFilters.multipleCustomers"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border flex-1"
+          (selectionChange)="updateListFilter('multipleCustomers', $event.value)"
         >
-          <option value="">Multiple Bidders</option>
-          <option value="customer1">Bidder 1</option>
-          <option value="customer2">Bidder 2</option>
-          <option value="customer3">Bidder 3</option>
-        </select>
-        <button
-          (click)="resetListFilter('multipleCustomers')"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 p-2 rounded-lg"
-        >
-          <ng-icon name="lucideRotateCcw" class="h-4 w-4"></ng-icon>
-        </button>
-      </div>
+          <mat-option value="">All</mat-option>
+          <mat-option value="customer1">Bidder 1</mat-option>
+          <mat-option value="customer2">Bidder 2</mat-option>
+          <mat-option value="customer3">Bidder 3</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button (click)="resetListFilter('multipleCustomers')">
+        <ng-icon name="lucideRotateCcw"></ng-icon>
+      </button>
     </div>
 
-    <div class="space-y-2">
-      <div class="flex items-center gap-2">
-        <select
-          [(ngModel)]="listFilters.customer"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border flex-1"
-        >
-          <option value="">Bidder</option>
-          <option value="john">Ken Parker</option>
-          <option value="jane">Jane Smith</option>
-          <option value="bob">Bob Johnson</option>
-        </select>
-        <button
-          (click)="resetListFilter('customer')"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 p-2 rounded-lg"
-        >
-          <ng-icon name="lucideRotateCcw" class="h-4 w-4"></ng-icon>
-        </button>
-      </div>
+    <div class="filter-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Bidder</mat-label>
+        <mat-select [(ngModel)]="listFilters.customer" (selectionChange)="updateListFilter('customer', $event.value)">
+          <mat-option value="">All bidders</mat-option>
+          <mat-option value="john">Ken Parker</mat-option>
+          <mat-option value="jane">Jane Smith</mat-option>
+          <mat-option value="bob">Bob Johnson</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button (click)="resetListFilter('customer')">
+        <ng-icon name="lucideRotateCcw"></ng-icon>
+      </button>
     </div>
 
-    <div class="space-y-2">
-      <div class="flex items-center gap-2">
-        <select
-          [(ngModel)]="listFilters.status"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border flex-1"
-        >
-          <option value="">Status</option>
-          <option value="active">Active</option>
-          <option value="pending">Pending</option>
-          <option value="complete">Complete</option>
-        </select>
-        <button
-          (click)="resetListFilter('status')"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 p-2 rounded-lg"
-        >
-          <ng-icon name="lucideRotateCcw" class="h-4 w-4"></ng-icon>
-        </button>
-      </div>
+    <div class="filter-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="listFilters.status" (selectionChange)="updateListFilter('status', $event.value)">
+          <mat-option value="">All statuses</mat-option>
+          <mat-option value="active">Active</mat-option>
+          <mat-option value="pending">Pending</mat-option>
+          <mat-option value="complete">Complete</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button (click)="resetListFilter('status')">
+        <ng-icon name="lucideRotateCcw"></ng-icon>
+      </button>
     </div>
 
-    <div class="space-y-2">
-      <div class="flex items-center gap-2">
-        <select
-          [(ngModel)]="listFilters.month"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border flex-1"
-        >
-          <option value="">Month</option>
-          <option *ngFor="let month of months.slice(0, 12)" [value]="month.toLowerCase()">
+    <div class="filter-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Month</mat-label>
+        <mat-select [(ngModel)]="listFilters.month" (selectionChange)="updateListFilter('month', $event.value)">
+          <mat-option value="">All months</mat-option>
+          <mat-option *ngFor="let month of months.slice(0, 12)" [value]="month.toLowerCase()">
             {{ month }}
-          </option>
-        </select>
-        <button
-          (click)="resetListFilter('month')"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 p-2 rounded-lg"
-        >
-          <ng-icon name="lucideRotateCcw" class="h-4 w-4"></ng-icon>
-        </button>
-      </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button (click)="resetListFilter('month')">
+        <ng-icon name="lucideRotateCcw"></ng-icon>
+      </button>
     </div>
 
-    <div class="space-y-2">
-      <div class="flex items-center gap-2">
-        <select
-          [(ngModel)]="listFilters.year"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border flex-1"
-        >
-          <option value="">Year</option>
-          <option *ngFor="let year of years" [value]="year">
-            {{ year }}
-          </option>
-        </select>
-        <button
-          (click)="resetListFilter('year')"
-          class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 p-2 rounded-lg"
-        >
-          <ng-icon name="lucideRotateCcw" class="h-4 w-4"></ng-icon>
-        </button>
-      </div>
+    <div class="filter-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Year</mat-label>
+        <mat-select [(ngModel)]="listFilters.year" (selectionChange)="updateListFilter('year', $event.value)">
+          <mat-option value="">All years</mat-option>
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button (click)="resetListFilter('year')">
+        <ng-icon name="lucideRotateCcw"></ng-icon>
+      </button>
+    </div>
+
+    <div class="filter-group">
+      <mat-form-field appearance="outline" class="range-field">
+        <mat-label>RLF Range From</mat-label>
+        <input matInput [(ngModel)]="listFilters.rangeFrom" (ngModelChange)="updateListFilter('rangeFrom', $event)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="range-field">
+        <mat-label>RLF Range To</mat-label>
+        <input matInput [(ngModel)]="listFilters.rangeTo" (ngModelChange)="updateListFilter('rangeTo', $event)" />
+      </mat-form-field>
+      <button mat-icon-button (click)="resetListFilter('rangeFrom'); resetListFilter('rangeTo')">
+        <ng-icon name="lucideRotateCcw"></ng-icon>
+      </button>
     </div>
   </div>
+</mat-card>
 
-  <!-- Range Inputs -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-    <input
-      type="text"
-      placeholder="RLF Range From"
-      [(ngModel)]="listFilters.rangeFrom"
-      class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 dark:border-gray-600/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border text-sm sm:text-base mobile-text-sm"
-    />
-    <input
-      type="text"
-      placeholder="RLF Range To"
-      [(ngModel)]="listFilters.rangeTo"
-      class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 dark:border-gray-600/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border text-sm sm:text-base mobile-text-sm"
-    />
-    <button
-      (click)="resetListFilter('rangeFrom'); resetListFilter('rangeTo')"
-      class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 dark:border-gray-600/30 flex justify-center items-center rounded-lg hover:bg-white/60 dark:hover:bg-gray-600/70 transition-all duration-300 py-2"
-    >
-      <ng-icon name="lucideRotateCcw" class="h-4 w-4"></ng-icon>
-    </button>
-  </div>
-</div>
+<mat-card class="material-card list-card">
+  <div class="table-container">
+    <table mat-table [dataSource]="listTableData" class="mat-elevation-z0">
+      <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+        <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+        <td mat-cell *matCellDef="let row">{{ valueFor(row, column.key) }}</td>
+      </ng-container>
 
-<!-- List Table -->
-<div class="bg-white/25 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl overflow-hidden shadow-2xl">
-  <div class="table-container responsive-table p-6">
-    <table class="w-full">
-    <thead>
-      <tr class="border-white/20 bg-blue-500/30 dark:bg-blue-600/40 backdrop-blur-lg">
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Product
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Bidder
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Status
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Month
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Year
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Bid Volume
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Bid Price
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Final awarded volume
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Volume takes
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Additional volumes
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            12 Month RLF
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Comments
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of listTableData" class="border-white/20 hover:bg-white/20 transition-colors duration-200">
-        <td *ngFor="let i of createRange(12)" class="text-gray-700 dark:text-gray-200 py-4 px-4">
-          {{ getTableProperty(row, i) }}
-        </td>
-      </tr>
-    </tbody>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
-</div>
+</mat-card>
