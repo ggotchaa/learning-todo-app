@@ -1,16 +1,9 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { NgIcon } from '@ng-icons/core';
 import { ReportData } from '../../shared/interfaces';
 import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-reports',
-  standalone: true,
-  imports: [CommonModule, MatCardModule, MatTableModule, MatButtonModule, NgIcon],
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css']
 })

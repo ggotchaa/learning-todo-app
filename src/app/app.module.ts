@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -27,15 +26,14 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReportsComponent } from './pages/reports/reports.component';
-import { TenderAwardsComponent } from './pages/tender-awards/tender-awards.component';
-import { CustomerListComponent } from './pages/customer-list/customer-list.component';
+import { ReportsModule } from './pages/reports/reports.module';
+import { TenderAwardsModule } from './pages/tender-awards/tender-awards.module';
+import { CustomerListModule } from './pages/customer-list/customer-list.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    CommonModule,
     BrowserAnimationsModule,
     FormsModule,
     MatToolbarModule,
@@ -59,9 +57,9 @@ import { CustomerListComponent } from './pages/customer-list/customer-list.compo
       lucideX
     }),
     AppRoutingModule,
-    ReportsComponent,
-    TenderAwardsComponent,
-    CustomerListComponent
+    ReportsModule,
+    TenderAwardsModule,
+    CustomerListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
