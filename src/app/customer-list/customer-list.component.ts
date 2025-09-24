@@ -1,21 +1,41 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
 import { NgIconComponent } from '@ng-icons/core';
-import { ListFilters, TableData, SecretTableData } from '../../shared/interfaces';
-import { DataService } from '../../services/data.service';
+import { ListFilters, TableData } from '../shared/interfaces';
+import { DataService } from '../services/data.service';
+
+interface ColumnConfig {
+  key: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-customer-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgIconComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    NgIconComponent
+  ],
   templateUrl: './customer-list.component.html',
   styleUrl: './customer-list.component.css'
 })
 export class CustomerListComponent implements OnInit, OnChanges {
   @Input() selectedMonth = 'September';
   @Input() selectedYear = '2024';
-  showSecretPopup = false;
 
   listFilters: ListFilters = {
     multipleCustomers: '',
@@ -34,12 +54,28 @@ export class CustomerListComponent implements OnInit, OnChanges {
 
   years = ['2025', '2024', '2023', '2022', '2021'];
 
+  columns: ColumnConfig[] = [
+    { key: 'col1', label: 'Product' },
+    { key: 'col2', label: 'Bidder' },
+    { key: 'col3', label: 'Status' },
+    { key: 'col4', label: 'Month' },
+    { key: 'col5', label: 'Year' },
+    { key: 'col6', label: 'Bid Volume' },
+    { key: 'col7', label: 'Bid Price' },
+    { key: 'col8', label: 'Final Awarded Volume' },
+    { key: 'col9', label: 'Volume Takes' },
+    { key: 'col10', label: 'Additional Volumes' },
+    { key: 'col11', label: '12 Month RLF' },
+    { key: 'col12', label: 'Comments' }
+  ];
+
+  displayedColumns = this.columns.map(column => column.key);
   listTableData: TableData[] = [];
-  secretTableData: SecretTableData[] = [];
 
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
+    this.updateFiltersFromInput();
     this.loadData();
   }
 
@@ -57,7 +93,6 @@ export class CustomerListComponent implements OnInit, OnChanges {
 
   loadData(): void {
     this.listTableData = this.dataService.getListTableData(this.listFilters);
-    this.secretTableData = this.dataService.getSecretTableData();
   }
 
   updateListFilter(key: keyof ListFilters, value: string): void {
@@ -70,15 +105,7 @@ export class CustomerListComponent implements OnInit, OnChanges {
     this.loadData();
   }
 
-  createRange(length: number): number[] {
-    return Array.from({ length }, (_, i) => i + 1);
-  }
-
-  getTableProperty(row: any, colIndex: number): any {
-    return row[`col${colIndex}`];
-  }
-
-  setShowSecretPopup(show: boolean): void {
-    this.showSecretPopup = show;
+  valueFor(row: TableData, key: string): unknown {
+    return row[key];
   }
 }

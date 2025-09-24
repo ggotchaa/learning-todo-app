@@ -1,384 +1,110 @@
-<!-- Sub Navigation and Text Info -->
-<div class="mb-6 bg-white/30 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl p-4 sm:p-6 shadow-xl dark:shadow-2xl glass-container">
-  <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 lg:gap-0">
-    <!-- Left Side - Sub Navigation and Info -->
-    <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-      <!-- Sub Navigation Buttons -->
-      <div class="flex flex-wrap gap-2 sm:gap-3">
-        <button
-          *ngFor="let button of ['Initiate', 'History', 'Active']"
-          (click)="setActiveSubButton(button)"
-          [class]="'backdrop-blur-md transition-all duration-300 border border-white/30 dark:border-gray-600/30 px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base mobile-text-sm ' +
-                   (activeSubButton === button ?
-                    'bg-green-500/80 text-white shadow-lg hover:bg-green-600/80' :
-                    'bg-white/40 dark:bg-gray-700/60 text-gray-700 dark:text-gray-200 hover:bg-white/60 dark:hover:bg-gray-600/70')"
-        >
-          {{ button }}
-        </button>
-      </div>
-
-      <!-- Text Info -->
-      <div class="flex flex-col gap-1 text-gray-700 dark:text-gray-200 text-xs sm:text-sm mobile-text-sm">
-        <div class="flex flex-wrap items-center gap-1">
-          <span class="font-medium">Name:</span>
-          <span class="break-words">Tender Award Analysis September 2025</span>
-        </div>
-        <div class="flex flex-wrap items-center gap-1">
-          <span class="font-medium">Creator:</span>
-          <span>John Smith</span>
-        </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <div class="flex items-center gap-1">
-            <span class="font-medium">Month:</span>
-            <span>{{ selectedMonth }}</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span class="font-medium">Status:</span>
-            <span class="bg-green-500/80 text-white shadow-lg hover:bg-green-600/80 px-2 py-1 rounded text-xs">Active</span>
-          </div>
-        </div>
-        <div class="flex flex-wrap items-center gap-1">
-          <span class="font-medium">File:</span>
-          <span class="break-all">awards_data.xlsx</span>
-        </div>
-      </div>
+<mat-card class="material-card awards-header">
+  <div class="header-main">
+    <div>
+      <h2>Tender Award Analysis {{ selectedMonth }} {{ selectedYear }}</h2>
+      <p>Creator: John Smith</p>
     </div>
-
-    <!-- Right Side - Action Buttons -->
-    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full lg:w-auto">
-      <button class="bg-blue-500/80 dark:bg-blue-600/80 text-white backdrop-blur-md border border-white/30 dark:border-gray-600/30 px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-600/90 dark:hover:bg-blue-700/90 transition-all duration-300 text-sm sm:text-base mobile-text-sm">
-        View Proposals
-      </button>
-      <button class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 dark:border-gray-600/30 text-gray-700 dark:text-gray-200 px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-white/60 dark:hover:bg-gray-600/70 transition-all duration-300 text-sm sm:text-base mobile-text-sm">
-        <ng-icon name="lucideRefreshCw" class="h-4 w-4"></ng-icon>
+    <div class="header-actions">
+      <button mat-raised-button color="primary">View Proposals</button>
+      <button mat-stroked-button>
+        <ng-icon name="lucideRefreshCw"></ng-icon>
         Refresh
       </button>
     </div>
   </div>
-</div>
+  <div class="tab-row">
+    <button mat-button [color]="activeTab === 'Initiate' ? 'primary' : undefined" (click)="setTab('Initiate')">
+      Initiate
+    </button>
+    <button mat-button [color]="activeTab === 'History' ? 'primary' : undefined" (click)="setTab('History')">
+      History
+    </button>
+    <button mat-button [color]="activeTab === 'Active' ? 'primary' : undefined" (click)="setTab('Active')">
+      Active
+    </button>
+  </div>
+</mat-card>
 
-<!-- Dynamic Content Based on Sub Navigation -->
-
-<!-- Initiate Page -->
-<div *ngIf="activeSubButton === 'Initiate'" class="flex justify-center items-center min-h-[600px]">
-  <div class="w-full max-w-4xl bg-white/30 dark:bg-gray-800/70 backdrop-blur-xl border border-white/20 dark:border-gray-600/30 shadow-xl dark:shadow-2xl glass-container rounded-2xl">
-    <div class="text-center p-6 border-b border-white/20">
-      <h2 class="text-3xl text-gray-800">Tender award analysis report details</h2>
-    </div>
-    <div class="p-6">
-      <div class="flex items-center justify-center space-x-8">
-        <!-- Step 1 -->
-        <div class="flex flex-col items-center space-y-4 flex-1">
-          <div class="bg-blue-500/20 border border-blue-300/30 rounded-full p-6 backdrop-blur-md">
-            <div class="flex items-center justify-center w-16 h-16 bg-blue-500 rounded-full text-white text-2xl">
-              1
-            </div>
-          </div>
-          <div class="text-center">
-            <h3 class="text-lg text-gray-800 mb-2">Data Collection</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Gather all required documents and information for processing</p>
-            <button class="mt-3 bg-blue-500/80 text-white backdrop-blur-md border border-white/30 px-4 py-2 rounded-lg">
-              Start Collection
-            </button>
-          </div>
-        </div>
-
-        <ng-icon name="lucideArrowRight" class="text-gray-400 w-8 h-8"></ng-icon>
-
-        <!-- Step 2 -->
-        <div class="flex flex-col items-center space-y-4 flex-1">
-          <div class="bg-orange-500/20 border border-orange-300/30 rounded-full p-6 backdrop-blur-md">
-            <div class="flex items-center justify-center w-16 h-16 bg-orange-500 rounded-full text-white text-2xl">
-              2
-            </div>
-          </div>
-          <div class="text-center">
-            <h3 class="text-lg text-gray-800 mb-2">Processing</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Analyze and process the collected data through our system</p>
-            <button class="mt-3 bg-orange-500/80 text-white backdrop-blur-md border border-white/30 px-4 py-2 rounded-lg" disabled>
-              Processing
-            </button>
-          </div>
-        </div>
-
-        <ng-icon name="lucideArrowRight" class="text-gray-400 w-8 h-8"></ng-icon>
-
-        <!-- Step 3 -->
-        <div class="flex flex-col items-center space-y-4 flex-1">
-          <div class="bg-green-500/20 border border-green-300/30 rounded-full p-6 backdrop-blur-md">
-            <div class="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full text-white text-2xl">
-              3
-            </div>
-          </div>
-          <div class="text-center">
-            <h3 class="text-lg text-gray-800 mb-2">Completion</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Review results and finalize the awards process</p>
-            <button class="mt-3 bg-green-500/80 text-white backdrop-blur-md border border-white/30 px-4 py-2 rounded-lg" disabled>
-              Complete
-            </button>
-          </div>
-        </div>
+<ng-container [ngSwitch]="activeTab">
+  <mat-card *ngSwitchCase="'Initiate'" class="material-card initiate-card">
+    <div class="step-grid">
+      <div class="step">
+        <span class="step-number">1</span>
+        <h3>Data Collection</h3>
+        <p>Gather documents and information required for processing.</p>
+        <button mat-stroked-button color="primary">Start Collection</button>
       </div>
-
-      <p class="text-gray-600 dark:text-gray-300 mt-5">Calculating Performance(%) = (Lifted PR + Lifted BT)/(Nominated PR + Nominated BT)</p>
-
-      <!-- Progress Status -->
-      <div class="mt-8 bg-white/25 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-xl p-6">
-        <div class="flex items-center justify-between mb-4">
-          <h4 class="text-lg text-gray-800">Current Progress</h4>
-          <span class="text-sm text-gray-600 dark:text-gray-300">Step 1 of 3</span>
-        </div>
-        <div class="w-full bg-gray-200 rounded-full h-2">
-          <div class="bg-blue-500 h-2 rounded-full w-1/3"></div>
-        </div>
-        <div class="mt-4 flex gap-4">
-          <button class="bg-blue-500/80 text-white backdrop-blur-md border border-white/30 px-4 py-2 rounded-lg">
-            Get Shipments
-          </button>
-          <button class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-lg">
-            Analyze History
-          </button>
-        </div>
+      <div class="step">
+        <span class="step-number">2</span>
+        <h3>Processing</h3>
+        <p>Analyze the collected data in the system.</p>
+        <button mat-stroked-button disabled>Processing</button>
+      </div>
+      <div class="step">
+        <span class="step-number">3</span>
+        <h3>Completion</h3>
+        <p>Review results and finalize the awards.</p>
+        <button mat-stroked-button disabled>Complete</button>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- History Page -->
-<div *ngIf="activeSubButton === 'History'" class="bg-white/25 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl shadow-2xl dark:shadow-3xl p-6">
-  <div class="mb-4">
-    <h3 class="text-xl text-gray-800 mb-2">Historical Data</h3>
-  </div>
+    <p class="formula">Performance = (Lifted PR + Lifted BT) / (Nominated PR + Nominated BT)</p>
 
-  <div class="h-96 w-full table-container responsive-table">
-    <table class="w-full">
-      <thead class="sticky top-0 bg-blue-500/30 dark:bg-blue-600/40 backdrop-blur-lg z-10">
-        <tr class="border-white/20">
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Bidder</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Status</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Volume PR</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Volume BT</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Additional PR</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Additional BT</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Nominated PR</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Nominated BT</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Lifted PR</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Lifted BT</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Performance</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left min-w-24">Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of historyTableData" class="border-white/20 hover:bg-white/20 transition-colors duration-200">
-          <td *ngFor="let i of createRange(12)" class="text-gray-700 dark:text-gray-200 py-3 px-4 min-w-24">
-            {{ getTableProperty(row, i) }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+    <mat-card class="material-card progress-card">
+      <div class="progress-header">
+        <strong>Current Progress</strong>
+        <span>Step 1 of 3</span>
+      </div>
+      <mat-progress-bar mode="determinate" value="33"></mat-progress-bar>
+      <div class="progress-actions">
+        <button mat-raised-button color="primary">Get Shipments</button>
+        <button mat-stroked-button>Analyze History</button>
+      </div>
+    </mat-card>
+  </mat-card>
 
-<!-- Active Awards Page -->
-<div *ngIf="activeSubButton === 'Active'">
-  <!-- First Table -->
-  <div class="mb-6 bg-white/25 backdrop-blur-xl border rounded-2xl border-white/20 overflow-hidden shadow-2xl">
-    <div class="table-container responsive-table p-6">
-      <table class="w-full">
-      <thead>
-        <tr class="border-white/20 bg-blue-500/30 dark:bg-blue-600/40 backdrop-blur-lg">
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Product</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Bidder</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Region</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Status</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Month</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Bid Volume</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Proposed Price</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Rank per Price</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">12 Month RLF</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Award Volume</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Final Award Volume</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of awardsData" class="border-white/20 hover:bg-white/20 transition-colors duration-200">
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col1 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col2 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col3 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col4 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col5 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col6 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col7 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col8 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col9 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col10 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.col11 }}</td>
-          <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.comments }}</td>
-        </tr>
-      </tbody>
+  <mat-card *ngSwitchCase="'History'" class="material-card history-card">
+    <h3>Historical Data</h3>
+    <div class="table-container">
+      <table mat-table [dataSource]="historyTableData" class="mat-elevation-z0">
+        <ng-container *ngFor="let column of historyColumns" [matColumnDef]="column.key">
+          <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+          <td mat-cell *matCellDef="let row">{{ valueFor(row, column.key) }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="historyColumns.map(c => c.key)"></tr>
+        <tr mat-row *matRowDef="let row; columns: historyColumns.map(c => c.key)"></tr>
       </table>
     </div>
+  </mat-card>
+
+  <div *ngSwitchCase="'Active'" class="active-view">
+    <mat-card class="material-card">
+      <div class="table-container">
+        <table mat-table [dataSource]="awardsData" class="mat-elevation-z0">
+          <ng-container *ngFor="let column of awardsColumns" [matColumnDef]="column.key">
+            <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+            <td mat-cell *matCellDef="let row">{{ valueFor(row, column.key) }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="awardsColumns.map(c => c.key)"></tr>
+          <tr mat-row *matRowDef="let row; columns: awardsColumns.map(c => c.key)"></tr>
+        </table>
+      </div>
+    </mat-card>
+
+    <mat-card class="material-card">
+      <div class="table-container">
+        <table mat-table [dataSource]="secondTableData" class="mat-elevation-z0">
+          <ng-container *ngFor="let column of secondaryColumns" [matColumnDef]="column.key">
+            <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+            <td mat-cell *matCellDef="let row">{{ valueFor(row, column.key) }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="secondaryColumns.map(c => c.key)"></tr>
+          <tr mat-row *matRowDef="let row; columns: secondaryColumns.map(c => c.key)"></tr>
+        </table>
+      </div>
+    </mat-card>
   </div>
-
-  <!-- First Dashboard Status -->
-  <div class="mb-6 bg-white/25 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl p-6 shadow-xl">
-    <div class="grid grid-cols-4 gap-6">
-      <div class="text-center">
-        <div class="text-2xl text-blue-500">1000</div>
-        <div class="text-gray-600 dark:text-gray-300">Sum of bid volume for propane</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl text-blue-500">1000</div>
-        <div class="text-gray-600 dark:text-gray-300">Weightened average for propane</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl text-green-500">1000</div>
-        <div class="text-gray-600 dark:text-gray-300">Difference with previous month price</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl text-blue-500">1000</div>
-        <div class="text-gray-600 dark:text-gray-300">Total propane for RK</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Second Table -->
-  <div class="mb-6 bg-white/25 backdrop-blur-xl border rounded-2xl border-white/20 overflow-hidden shadow-2xl">
-    <div class="table-container responsive-table p-6">
-      <table class="w-full">
-      <thead>
-        <tr class="border-white/20 bg-blue-500/30 dark:bg-blue-600/40 backdrop-blur-lg">
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Product</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Bidder</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Region</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Status</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Month</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Bid Volumne</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Proposed Price</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Rank per Price</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">12 Month RLF</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Award Volume</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Final Award Volume</th>
-          <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of secondTableData" class="border-white/20 hover:bg-white/20 transition-colors duration-200">
-          <td *ngFor="let i of createRange(12)" class="text-gray-700 dark:text-gray-200 py-4 px-4">
-            {{ getTableProperty(row, i) }}
-          </td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Second Dashboard Status -->
-  <div class="mb-6 bg-white/25 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl p-6 shadow-xl">
-    <div class="grid grid-cols-4 gap-6">
-      <div class="text-center">
-        <div class="text-2xl text-blue-500">1000</div>
-        <div class="text-gray-600 dark:text-gray-300">Sum of bid volume for butane</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl text-blue-500">1000</div>
-        <div class="text-gray-600 dark:text-gray-300">Weightened average for butane</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl text-red-500">-3</div>
-        <div class="text-gray-600 dark:text-gray-300">Difference with previous month price</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl text-blue-500">1000</div>
-        <div class="text-gray-600 dark:text-gray-300">Total butane for RK</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Complex Dashboard Section -->
-  <div class="mb-6 grid grid-cols-2 gap-6">
-    <!-- Left Side -->
-    <div class="space-y-4">
-      <!-- Highlighted totals -->
-      <div class="flex items-center gap-4">
-        <div class="bg-green-500/20 border border-green-300/30 rounded-xl p-4 backdrop-blur-md">
-          <div class="text-2xl text-green-800">50</div>
-        </div>
-        <div class="text-gray-700 dark:text-gray-200">Invited Buyers for SEPTEMBER'S</div>
-      </div>
-
-      <div class="flex items-center gap-4">
-        <div class="bg-yellow-500/20 border border-yellow-300/30 rounded-xl p-4 backdrop-blur-md">
-          <div class="text-2xl text-yellow-800">30</div>
-        </div>
-        <div class="text-gray-700 dark:text-gray-200">Participated Buyers</div>
-      </div>
-
-      <!-- Button controls -->
-      <div class="space-y-3">
-        <div class="flex gap-2">
-          <button class="bg-blue-500/80 text-white backdrop-blur-md border border-white/30 w-1/2 py-2 rounded-lg">
-            Open Comments
-          </button>
-        </div>
-
-        <div class="flex gap-2">
-          <button class="bg-green-500/80 text-white backdrop-blur-md border border-white/30 p-2 rounded-lg">
-            Calculate Summary
-          </button>
-          <div class="flex justify-between text-gray-700 dark:text-gray-200 text-sm">
-            <span>Min entry price Propane: 2000, </span>
-            <span>Butane: 2000</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right Side -->
-    <div class="space-y-4">
-      <!-- Simple table without borders -->
-      <div class="bg-white/25 backdrop-blur-xl rounded-2xl p-4">
-        <div class="grid grid-cols-2 gap-2">
-          <div class="text-gray-700 dark:text-gray-200">Total bid volume:</div>
-          <div class="text-blue-500">20000</div>
-          <div class="text-gray-700 dark:text-gray-200">Total LPG for RK:</div>
-          <div class="text-blue-500">5000</div>
-          <div class="text-gray-700 dark:text-gray-200">Weighted average:</div>
-          <div class="text-gray-700 dark:text-gray-200">200</div>
-        </div>
-      </div>
-
-      <!-- File attachment box -->
-      <div class="bg-white/25 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl p-6 shadow-xl">
-        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-          <ng-icon name="lucideUpload" class="mx-auto h-12 w-12 text-gray-400 mb-4"></ng-icon>
-          <div class="text-gray-600 dark:text-gray-300 mb-2">Drop files here or click to upload</div>
-          <button class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 px-4 py-2 rounded-lg flex items-center gap-2">
-            <ng-icon name="lucidePlus" class="h-4 w-4"></ng-icon>
-            Choose Files
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom Action Buttons -->
-  <div class="bg-white/25 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl p-6 shadow-xl">
-    <div class="grid grid-cols-6 gap-4">
-      <button
-        *ngFor="let buttonText of [
-          'Calculate 12 months RLF',
-          'Manage Signers',
-          'Export to Excel',
-          'Export to PDF',
-          'Open & Download',
-          'Delete PDF'
-        ]"
-        class="bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border border-white/30 text-gray-700 dark:text-gray-200 hover:bg-white/60 px-4 py-2 rounded-lg"
-      >
-        {{ buttonText }}
-      </button>
-    </div>
-  </div>
-</div>
+</ng-container>

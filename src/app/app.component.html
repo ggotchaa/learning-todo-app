@@ -1,123 +1,118 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
-  
-  <div class="fixed inset-0 bg-gradient-to-br from-blue-100/30 via-white/50 to-purple-100/30 dark:from-gray-900/40 dark:via-gray-800/50 dark:to-gray-900/40 backdrop-blur-3xl -z-10"></div>
+<mat-toolbar color="primary" class="app-toolbar">
+  <span class="toolbar-title">Bidding Platform</span>
+  <span class="spacer"></span>
+  <button
+    mat-icon-button
+    (click)="toggleTheme()"
+    [attr.aria-label]="isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'"
+  >
+    <ng-icon [name]="isDarkTheme ? 'lucideSun' : 'lucideMoon'"></ng-icon>
+  </button>
+</mat-toolbar>
 
-  <!-- Title with Theme Toggle -->
-  <div class="flex justify-between items-center mb-6 mobile-stack mobile-gap-2">
-    <div class="hidden md:block"></div>
-    <h1 [class]="'text-gray-800 dark:text-white text-2xl md:text-4xl font-bold text-center mobile-full'">
-      Bidding Platform
-    </h1>
-    <!-- Theme Toggle Button -->
-    <button
-      (click)="toggleTheme()"
-      class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-md border border-white/30 dark:border-gray-600/30 text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-all duration-300 p-3 rounded-xl shadow-lg"
-      [attr.aria-label]="isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'"
-    >
-      <ng-icon
-        [name]="isDarkTheme ? 'lucideSun' : 'lucideMoon'"
-        size="20"
-        class="text-gray-600 dark:text-gray-300 dark:text-gray-300"
-      ></ng-icon>
-    </button>
-  </div>
-
-  <!-- Header -->
-  <div class="mb-8 bg-white/30 dark:bg-gray-800/80 backdrop-blur-xl border border-white/20 dark:border-gray-600/30 rounded-2xl p-4 md:p-6 shadow-xl dark:shadow-2xl glass-container glass-container">
-    <div class="flex flex-col lg:flex-row justify-between items-center gap-4 lg:gap-0">
-      <!-- Navigation Buttons -->
-      <div class="flex flex-wrap gap-2 md:gap-3 items-center justify-center lg:justify-start mobile-full">
+<main class="app-shell">
+  <mat-card class="material-card control-card">
+    <div class="control-header">
+      <div class="view-buttons">
         <button
-          *ngFor="let button of ['Bidding Reports', 'Tender Awards', 'Customer List']"
-          (click)="setActiveButton(getButtonValue(button))"
-          [class]="'backdrop-blur-md transition-all duration-300 border px-3 md:px-4 py-2 rounded-lg text-sm md:text-base mobile-text-sm ' +
-                   (activeButton === getButtonValue(button) ?
-                    'bg-blue-500/80 text-white shadow-lg hover:bg-blue-600/80 border-blue-400/50 dark:bg-blue-600/90 dark:border-blue-500/50' :
-                    'bg-white/40 text-gray-700 dark:text-gray-200 hover:bg-white/60 border-white/30 dark:bg-gray-700/60 dark:text-white dark:hover:bg-gray-600/70 dark:border-gray-500/30')"
+          mat-raised-button
+          color="primary"
+          class="view-button"
+          [disabled]="activeView === 'reports'"
+          (click)="selectView('reports')"
         >
-          {{ button }}
+          Bidding Reports
         </button>
-
-        <!-- Secret Button - Only visible when List is selected -->
         <button
-          *ngIf="activeButton === 'CustomerList'"
-          (click)="setShowSecretPopup(true)"
-          class="ml-2 bg-green-500/20 text-green-700 border border-green-300/30 backdrop-blur-md hover:bg-green-500/30 text-sm px-4 py-2 rounded-lg dark:bg-green-600/30 dark:text-green-300 dark:border-green-500/40 dark:hover:bg-green-600/40"
+          mat-raised-button
+          color="primary"
+          class="view-button"
+          [disabled]="activeView === 'awards'"
+          (click)="selectView('awards')"
+        >
+          Tender Awards
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="view-button"
+          [disabled]="activeView === 'customers'"
+          (click)="selectView('customers')"
+        >
+          Customer List
+        </button>
+        <button
+          *ngIf="activeView === 'customers'"
+          mat-stroked-button
+          class="view-button"
+          (click)="showSecretPopup = true"
         >
           Customer Name Mapping
         </button>
       </div>
-
-      <!-- Date Selectors -->
-      <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center w-full lg:w-auto">
-        <select
-          [(ngModel)]="selectedMonth"
-          class="w-full sm:w-40 bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border dark:bg-gray-700/60 dark:text-white dark:border-gray-500/30 mobile-text-sm"
-        >
-          <option *ngFor="let month of months" [value]="month">{{ month }}</option>
-        </select>
-
-        <select
-          [(ngModel)]="selectedYear"
-          class="w-full sm:w-24 bg-white/40 dark:bg-gray-700/60 backdrop-blur-md border-white/30 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-lg border dark:bg-gray-700/60 dark:text-white dark:border-gray-500/30 mobile-text-sm"
-        >
-          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-        </select>
+      <div class="selectors">
+        <mat-form-field appearance="outline" class="selector">
+          <mat-label>Month</mat-label>
+          <mat-select [(ngModel)]="selectedMonth">
+            <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="selector">
+          <mat-label>Year</mat-label>
+          <mat-select [(ngModel)]="selectedYear">
+            <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
     </div>
-  </div>
+  </mat-card>
 
-  <!-- Page Content -->
-  <!-- Reports Page -->
-  <app-reports
-    *ngIf="activeButton === 'BiddingReports'"
-    [selectedMonth]="selectedMonth"
-    [selectedYear]="selectedYear">
-  </app-reports>
+  <section class="view-container">
+    <app-reports
+      *ngIf="activeView === 'reports'"
+      [selectedMonth]="selectedMonth"
+      [selectedYear]="selectedYear"
+    ></app-reports>
 
-  <!-- Tender Awards Page -->
-  <app-tender-awards
-    *ngIf="activeButton === 'TenderAwards'"
-    [selectedMonth]="selectedMonth"
-    [selectedYear]="selectedYear">
-  </app-tender-awards>
+    <app-tender-awards
+      *ngIf="activeView === 'awards'"
+      [selectedMonth]="selectedMonth"
+      [selectedYear]="selectedYear"
+    ></app-tender-awards>
 
-  <app-customer-list
-    *ngIf="activeButton === 'CustomerList'"
-    [selectedMonth]="selectedMonth"
-    [selectedYear]="selectedYear">
-  </app-customer-list>
+    <app-customer-list
+      *ngIf="activeView === 'customers'"
+      [selectedMonth]="selectedMonth"
+      [selectedYear]="selectedYear"
+    ></app-customer-list>
+  </section>
+</main>
 
-  <!-- Secret Popup -->
-  <div *ngIf="showSecretPopup" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl border border-white/30 dark:border-gray-600/40 max-w-2xl w-full mx-4 rounded-2xl p-6 shadow-2xl dark:shadow-3xl">
-      <div class="mt-4">
-        <table class="w-full">
-          <thead>
-            <tr class="border-white/20">
-              <th class="text-gray-900 dark:text-white py-2 px-4 text-left">Column 1</th>
-              <th class="text-gray-900 dark:text-white py-2 px-4 text-left">Column 2</th>
-              <th class="text-gray-900 dark:text-white py-2 px-4 text-left">Column 3</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of secretTableData" class="border-white/20">
-              <td class="text-gray-700 dark:text-gray-200 py-2 px-4">{{ row.column1 }}</td>
-              <td class="text-gray-700 dark:text-gray-200 py-2 px-4">{{ row.column2 }}</td>
-              <td class="text-gray-700 dark:text-gray-200 py-2 px-4">{{ row.column3 }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="mt-6 flex justify-center">
-        <button
-          (click)="setShowSecretPopup(false)"
-          class="bg-red-500/80 text-white backdrop-blur-md border border-white/30 hover:bg-red-600/80 px-4 py-2 rounded-lg flex items-center gap-2"
-        >
-          <ng-icon name="lucideX" class="h-4 w-4"></ng-icon>
-          Close
-        </button>
-      </div>
+<div *ngIf="showSecretPopup" class="secret-dialog">
+  <mat-card class="material-card secret-card">
+    <header class="secret-header">
+      <h3>Customer Name Mapping</h3>
+      <button mat-icon-button (click)="showSecretPopup = false">
+        <ng-icon name="lucideX"></ng-icon>
+      </button>
+    </header>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of secretTableData">
+            <td>{{ row.column1 }}</td>
+            <td>{{ row.column2 }}</td>
+            <td>{{ row.column3 }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </div>
+  </mat-card>
 </div>

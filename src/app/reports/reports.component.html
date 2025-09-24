@@ -1,157 +1,110 @@
-<!-- Main Table -->
-<div class="bg-white/25 dark:bg-gray-800/60 backdrop-blur-xl border border-white/20 dark:border-gray-600/25 rounded-2xl overflow-hidden shadow-2xl dark:shadow-3xl glass-container">
-  <div class="table-container responsive-table">
-    <table class="w-full min-w-max">
-    <thead>
-      <tr class="border-white/20 bg-blue-500/30 dark:bg-blue-600/40 backdrop-blur-lg">
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Name
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
+<mat-card class="material-card reports-card">
+  <div class="table-container">
+    <table mat-table [dataSource]="reportsData" class="mat-elevation-z0 reports-table">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>
+          Name
+          <ng-icon name="lucideArrowUpDown"></ng-icon>
         </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Total Bid <br />
-            Volume
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            <br />
-            Volume
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            <br />
-            Volume
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Weightened <br />
-            Average PR
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left wrap-text">
-          <div class="flex items-center gap-2">
-            Weightened <br /> Average
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Month
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Year
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Past <br />
-            History
-            <br /> Analysis
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Report File
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">
-          <div class="flex items-center gap-2">
-            Status
-            <ng-icon name="lucideArrowUpDown" class="h-4 w-4 cursor-pointer hover:text-blue-600"></ng-icon>
-          </div>
-        </th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Lock</th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Exception</th>
-        <th class="text-gray-900 dark:text-white py-4 px-4 text-left">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let row of reportsData"
-        class="border-white/20 hover:bg-white/20 transition-colors duration-200"
-      >
-        <td class="py-4 px-4">
-          <button class="text-black underline hover:no-underline wrap-text">
-            {{ row.name }}
-          </button>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button class="link-button">{{ row.name }}</button>
         </td>
-        <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.vl }}</td>
-        <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.vl2 }}</td>
-        <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.vibt }}%</td>
-        <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.avg }}</td>
-        <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.avgB }}</td>
-        <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.month }}</td>
-        <td class="text-gray-700 dark:text-gray-200 py-4 px-4">{{ row.year }}</td>
-        <td class="py-4 px-4">
-          <div class="flex flex-col gap-1">
-            <button
-              *ngFor="let file of row.historyFiles"
-              class="text-blue-600 hover:text-blue-800 underline text-sm text-left"
-            >
+      </ng-container>
+
+      <ng-container matColumnDef="vl">
+        <th mat-header-cell *matHeaderCellDef>Total Bid Volume</th>
+        <td mat-cell *matCellDef="let row">{{ row.vl }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="vl2">
+        <th mat-header-cell *matHeaderCellDef>Volume</th>
+        <td mat-cell *matCellDef="let row">{{ row.vl2 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="vibt">
+        <th mat-header-cell *matHeaderCellDef>Volume %</th>
+        <td mat-cell *matCellDef="let row">{{ row.vibt }}%</td>
+      </ng-container>
+
+      <ng-container matColumnDef="avg">
+        <th mat-header-cell *matHeaderCellDef>Weighted Avg PR</th>
+        <td mat-cell *matCellDef="let row">{{ row.avg }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="avgB">
+        <th mat-header-cell *matHeaderCellDef>Weighted Avg</th>
+        <td mat-cell *matCellDef="let row">{{ row.avgB }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="month">
+        <th mat-header-cell *matHeaderCellDef>Month</th>
+        <td mat-cell *matCellDef="let row">{{ row.month }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef>Year</th>
+        <td mat-cell *matCellDef="let row">{{ row.year }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="history">
+        <th mat-header-cell *matHeaderCellDef>History</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="history-links">
+            <button mat-button class="link-button" *ngFor="let file of row.historyFiles">
               {{ file }}
             </button>
           </div>
         </td>
-        <td class="py-4 px-4">
-          <button class="h-8 px-2 bg-white/30 dark:bg-gray-700/50 backdrop-blur-md border border-white/30 text-gray-700 dark:text-gray-200 hover:bg-white/50 rounded flex items-center gap-1">
-            <ng-icon name="lucideDownload" class="h-4 w-4"></ng-icon>
-            <ng-icon name="lucideFileText" class="h-4 w-4"></ng-icon>
+      </ng-container>
+
+      <ng-container matColumnDef="report">
+        <th mat-header-cell *matHeaderCellDef>Report</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="primary">
+            <ng-icon name="lucideDownload"></ng-icon>
+            <ng-icon name="lucideFileText"></ng-icon>
           </button>
         </td>
-        <td class="py-4 px-4">
-          <span
-            [class]="'backdrop-blur-md px-2 py-1 rounded text-xs border ' + getStatusColor(row.status)"
-          >
-            {{ row.status }}
-          </span>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let row">
+          <span [ngClass]="statusClass(row.status)">{{ row.status }}</span>
         </td>
-        <td class="py-4 px-4">
-          <button
-            [class]="'h-8 w-8 p-0 backdrop-blur-md border border-white/30 rounded flex items-center justify-center ' +
-                     (row.locked ?
-                      'bg-red-500/20 text-red-600 hover:bg-red-500/30' :
-                      'bg-white/30 text-gray-500 hover:bg-white/50')"
-          >
-            <ng-icon name="lucideLock" class="h-4 w-4"></ng-icon>
+      </ng-container>
+
+      <ng-container matColumnDef="locked">
+        <th mat-header-cell *matHeaderCellDef>Lock</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button [color]="row.locked ? 'warn' : undefined">
+            <ng-icon name="lucideLock"></ng-icon>
           </button>
         </td>
-        <td class="py-4 px-4">
-          <button class="h-8 px-3 bg-orange-500/20 text-orange-700 border border-orange-300/30 backdrop-blur-md hover:bg-orange-500/30 rounded">
-            Add
+      </ng-container>
+
+      <ng-container matColumnDef="exception">
+        <th mat-header-cell *matHeaderCellDef>Exception</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-stroked-button color="accent">Add</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Delete</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="warn">
+            <ng-icon name="lucideTrash2"></ng-icon>
           </button>
         </td>
-        <td class="py-4 px-4">
-          <button class="h-8 w-8 p-0 bg-red-500/20 text-red-600 border border-red-300/30 backdrop-blur-md hover:bg-red-500/30 rounded flex items-center justify-center">
-            <ng-icon name="lucideTrash2" class="h-4 w-4"></ng-icon>
-          </button>
-        </td>
-      </tr>
-    </tbody>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
-</div>
 
-<!-- Footer with glass effect -->
-<div class="mt-8 text-center">
-  <div class="inline-block bg-white/20 dark:bg-gray-700/50 backdrop-blur-xl border border-white/20 dark:border-gray-600/30 rounded-full px-6 py-2">
-    <p class="text-gray-600 dark:text-gray-300">
-      Showing {{ reportsData.length }} records for {{ selectedMonth }} {{ selectedYear }}
-    </p>
-  </div>
-</div>
+  <footer class="reports-footer">
+    Showing {{ reportsData.length }} records for {{ selectedMonth }} {{ selectedYear }}
+  </footer>
+</mat-card>

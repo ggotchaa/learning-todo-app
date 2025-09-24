@@ -1,0 +1,38 @@
+.reports-card {
+  padding: 16px 0 8px;
+}
+
+.reports-table {
+  width: 100%;
+}
+
+.reports-table th {
+  font-weight: 600;
+}
+
+.reports-table th ng-icon {
+  margin-left: 4px;
+  font-size: 16px;
+  opacity: 0.6;
+}
+
+.reports-table .mat-mdc-cell,
+.reports-table .mat-mdc-header-cell {
+  padding: 16px;
+}
+
+.history-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reports-footer {
+  margin: 16px;
+  text-align: center;
+  color: rgba(15, 23, 42, 0.65);
+}
+
+[data-theme='dark'] .reports-footer {
+  color: rgba(226, 232, 240, 0.8);
+}
