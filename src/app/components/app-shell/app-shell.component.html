@@ -8,8 +8,8 @@
           color="primary"
           class="view-button"
           type="button"
+          [routerLink]="['/', tab.route]"
           [disabled]="activeTab === tab.id"
-          (click)="selectTab(tab.id)"
         >
           {{ tab.label }}
         </button>

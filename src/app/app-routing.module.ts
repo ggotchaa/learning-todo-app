@@ -4,8 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: '**', redirectTo: '' }
+  { path: '', redirectTo: 'reports', pathMatch: 'full' },
+  { path: 'reports', component: HomeComponent },
+  { path: 'tender-awards', component: HomeComponent },
+  { path: 'customers', component: HomeComponent },
+  { path: '**', redirectTo: 'reports' }
 ];
 
 @NgModule({
