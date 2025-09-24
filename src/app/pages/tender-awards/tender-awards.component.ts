@@ -1,6 +1,13 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AwardData, TableData } from '../../shared/interfaces';
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableModule } from '@angular/material/table';
+import { NgIconsModule } from '@ng-icons/core';
+
 import { DataService } from '../../services/data.service';
+import { AwardData, TableData } from '../../shared/interfaces';
 
 interface ColumnConfig {
   key: string;
@@ -9,6 +16,15 @@ interface ColumnConfig {
 
 @Component({
   selector: 'app-tender-awards',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatProgressBarModule,
+    MatTableModule,
+    NgIconsModule
+  ],
   templateUrl: './tender-awards.component.html',
   styleUrls: ['./tender-awards.component.css']
 })
@@ -96,4 +112,3 @@ export class TenderAwardsComponent implements OnInit, OnChanges {
     return row[key as keyof (AwardData | TableData)];
   }
 }
-
