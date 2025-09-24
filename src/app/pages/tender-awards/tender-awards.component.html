@@ -72,8 +72,8 @@
           <td mat-cell *matCellDef="let row">{{ valueFor(row, column.key) }}</td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="historyColumns.map(c => c.key)"></tr>
-        <tr mat-row *matRowDef="let row; columns: historyColumns.map(c => c.key)"></tr>
+        <tr mat-header-row *matHeaderRowDef="historyColumnKeys"></tr>
+        <tr mat-row *matRowDef="let row; columns: historyColumnKeys"></tr>
       </table>
     </div>
   </mat-card>
@@ -87,8 +87,8 @@
             <td mat-cell *matCellDef="let row">{{ valueFor(row, column.key) }}</td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="awardsColumns.map(c => c.key)"></tr>
-          <tr mat-row *matRowDef="let row; columns: awardsColumns.map(c => c.key)"></tr>
+          <tr mat-header-row *matHeaderRowDef="awardsColumnKeys"></tr>
+          <tr mat-row *matRowDef="let row; columns: awardsColumnKeys"></tr>
         </table>
       </div>
     </mat-card>
@@ -101,8 +101,8 @@
             <td mat-cell *matCellDef="let row">{{ valueFor(row, column.key) }}</td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="secondaryColumns.map(c => c.key)"></tr>
-          <tr mat-row *matRowDef="let row; columns: secondaryColumns.map(c => c.key)"></tr>
+          <tr mat-header-row *matHeaderRowDef="secondaryColumnKeys"></tr>
+          <tr mat-row *matRowDef="let row; columns: secondaryColumnKeys"></tr>
         </table>
       </div>
     </mat-card>

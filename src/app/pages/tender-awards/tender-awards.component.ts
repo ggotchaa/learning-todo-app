@@ -70,6 +70,10 @@ export class TenderAwardsComponent implements OnInit, OnChanges {
     { key: 'col12', label: 'Comments' }
   ];
 
+  readonly awardsColumnKeys = this.awardsColumns.map(column => column.key);
+  readonly historyColumnKeys = this.historyColumns.map(column => column.key);
+  readonly secondaryColumnKeys = this.secondaryColumns.map(column => column.key);
+
   awardsData: AwardData[] = [];
   secondTableData: TableData[] = [];
   historyTableData: TableData[] = [];
@@ -100,3 +104,4 @@ export class TenderAwardsComponent implements OnInit, OnChanges {
     return row[key as keyof (AwardData | TableData)];
   }
 }
+
