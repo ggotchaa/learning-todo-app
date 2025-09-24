@@ -1,0 +1,91 @@
+<main class="app-shell">
+  <mat-card class="material-card control-card">
+    <div class="control-header">
+      <div class="view-buttons" role="tablist">
+        <button
+          *ngFor="let tab of tabs"
+          mat-raised-button
+          color="primary"
+          class="view-button"
+          type="button"
+          [disabled]="activeTab === tab.id"
+          (click)="selectTab(tab.id)"
+        >
+          {{ tab.label }}
+        </button>
+        <button
+          *ngIf="activeTab === 'customers'"
+          mat-stroked-button
+          class="view-button"
+          type="button"
+          (click)="openSecretPopup()"
+        >
+          Customer Name Mapping
+        </button>
+      </div>
+      <div class="selectors">
+        <mat-form-field appearance="outline" class="selector">
+          <mat-label>Month</mat-label>
+          <mat-select [(ngModel)]="selectedMonth">
+            <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="selector">
+          <mat-label>Year</mat-label>
+          <mat-select [(ngModel)]="selectedYear">
+            <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+
+  <section class="view-container">
+    <ng-container [ngSwitch]="activeTab">
+      <app-reports
+        *ngSwitchCase="'reports'"
+        [selectedMonth]="selectedMonth"
+        [selectedYear]="selectedYear"
+      ></app-reports>
+      <app-tender-awards
+        *ngSwitchCase="'tender-awards'"
+        [selectedMonth]="selectedMonth"
+        [selectedYear]="selectedYear"
+      ></app-tender-awards>
+      <app-customer-list
+        *ngSwitchCase="'customers'"
+        [selectedMonth]="selectedMonth"
+        [selectedYear]="selectedYear"
+      ></app-customer-list>
+    </ng-container>
+  </section>
+</main>
+
+<div *ngIf="showSecretPopup" class="secret-dialog">
+  <mat-card class="material-card secret-card">
+    <header class="secret-header">
+      <h3>Customer Name Mapping</h3>
+      <button mat-icon-button type="button" (click)="closeSecretPopup()">
+        <ng-icon name="lucideX"></ng-icon>
+      </button>
+    </header>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of secretTableData">
+            <td>{{ row.column1 }}</td>
+            <td>{{ row.column2 }}</td>
+            <td>{{ row.column3 }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
+</div>

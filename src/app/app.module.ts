@@ -26,13 +26,15 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
+import { AppShellComponent } from './components/app-shell/app-shell.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ReportsModule } from './pages/reports/reports.module';
 import { TenderAwardsModule } from './pages/tender-awards/tender-awards.module';
 import { CustomerListModule } from './pages/customer-list/customer-list.module';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HeaderComponent, AppShellComponent, HomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
