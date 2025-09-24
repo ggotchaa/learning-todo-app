@@ -18,8 +18,8 @@
           mat-raised-button
           color="primary"
           class="view-button"
-          [disabled]="isActive('reports')"
-          (click)="navigate('reports')"
+          [disabled]="activeView === 'reports'"
+          (click)="selectView('reports')"
         >
           Bidding Reports
         </button>
@@ -27,8 +27,8 @@
           mat-raised-button
           color="primary"
           class="view-button"
-          [disabled]="isActive('tender-awards')"
-          (click)="navigate('tender-awards')"
+          [disabled]="activeView === 'awards'"
+          (click)="selectView('awards')"
         >
           Tender Awards
         </button>
@@ -36,13 +36,13 @@
           mat-raised-button
           color="primary"
           class="view-button"
-          [disabled]="isActive('customers')"
-          (click)="navigate('customers')"
+          [disabled]="activeView === 'customers'"
+          (click)="selectView('customers')"
         >
           Customer List
         </button>
         <button
-          *ngIf="isActive('customers')"
+          *ngIf="activeView === 'customers'"
           mat-stroked-button
           class="view-button"
           (click)="showSecretPopup = true"
@@ -53,13 +53,13 @@
       <div class="selectors">
         <mat-form-field appearance="outline" class="selector">
           <mat-label>Month</mat-label>
-          <mat-select [(ngModel)]="selectedMonth" (ngModelChange)="onMonthChange($event)">
+          <mat-select [(ngModel)]="selectedMonth">
             <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline" class="selector">
           <mat-label>Year</mat-label>
-          <mat-select [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)">
+          <mat-select [(ngModel)]="selectedYear">
             <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -68,7 +68,23 @@
   </mat-card>
 
   <section class="view-container">
-    <router-outlet></router-outlet>
+    <app-reports
+      *ngIf="activeView === 'reports'"
+      [selectedMonth]="selectedMonth"
+      [selectedYear]="selectedYear"
+    ></app-reports>
+
+    <app-tender-awards
+      *ngIf="activeView === 'awards'"
+      [selectedMonth]="selectedMonth"
+      [selectedYear]="selectedYear"
+    ></app-tender-awards>
+
+    <app-customer-list
+      *ngIf="activeView === 'customers'"
+      [selectedMonth]="selectedMonth"
+      [selectedYear]="selectedYear"
+    ></app-customer-list>
   </section>
 </main>
 

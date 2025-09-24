@@ -1,13 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
-import { DateSelectionService } from './services/date-selection.service';
+import { Component } from '@angular/core';
 import { SecretTableData } from './shared/interfaces';
 import { mockSecretTableData } from './shared/mock-data';
-
-type AppView = 'reports' | 'tender-awards' | 'customers';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +8,12 @@ type AppView = 'reports' | 'tender-awards' | 'customers';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
-  selectedMonth = this.dateSelection.month;
-  selectedYear = this.dateSelection.year;
+export class AppComponent {
+  selectedMonth = 'September';
+  selectedYear = '2024';
+  activeView: 'reports' | 'awards' | 'customers' = 'reports';
   showSecretPopup = false;
   isDarkTheme = false;
-  currentView: AppView = this.resolveRoute(this.router.url);
 
   months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -31,41 +24,8 @@ export class AppComponent implements OnDestroy {
 
   secretTableData: SecretTableData[] = mockSecretTableData;
 
-  private readonly routeSubscription: Subscription;
-
-  constructor(private dateSelection: DateSelectionService, private router: Router) {
-    this.routeSubscription = this.router.events
-      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
-      .subscribe(event => {
-        this.currentView = this.resolveRoute(event.urlAfterRedirects);
-        if (this.currentView !== 'customers') {
-          this.showSecretPopup = false;
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
-  }
-
-  navigate(view: AppView): void {
-    if (!this.isActive(view)) {
-      void this.router.navigate([view]);
-    }
-  }
-
-  isActive(view: AppView): boolean {
-    return this.currentView === view;
-  }
-
-  onMonthChange(month: string): void {
-    this.selectedMonth = month;
-    this.dateSelection.setMonth(month);
-  }
-
-  onYearChange(year: string): void {
-    this.selectedYear = year;
-    this.dateSelection.setYear(year);
+  selectView(view: 'reports' | 'awards' | 'customers'): void {
+    this.activeView = view;
   }
 
   toggleTheme(): void {
@@ -74,21 +34,6 @@ export class AppComponent implements OnDestroy {
       document.documentElement.setAttribute('data-theme', 'dark');
     } else {
       document.documentElement.removeAttribute('data-theme');
-    }
-  }
-
-  private resolveRoute(url: string): AppView {
-    const [path] = url.split('?');
-    const firstSegment = path.replace(/^\//, '').split('/')[0];
-
-    switch (firstSegment) {
-      case 'customers':
-        return 'customers';
-      case 'tender-awards':
-        return 'tender-awards';
-      case 'reports':
-      default:
-        return 'reports';
     }
   }
 }

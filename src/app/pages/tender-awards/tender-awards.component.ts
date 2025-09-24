@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { NgIconsModule } from '@ng-icons/core';
-import { Subscription } from 'rxjs';
 
-import { DateSelectionService } from '../../services/date-selection.service';
 import { DataService } from '../../services/data.service';
 import { AwardData, TableData } from '../../shared/interfaces';
 
@@ -30,9 +28,9 @@ interface ColumnConfig {
   templateUrl: './tender-awards.component.html',
   styleUrls: ['./tender-awards.component.css']
 })
-export class TenderAwardsComponent implements OnInit, OnDestroy {
-  selectedMonth = 'September';
-  selectedYear = '2024';
+export class TenderAwardsComponent implements OnInit, OnChanges {
+  @Input() selectedMonth = 'September';
+  @Input() selectedYear = '2024';
   activeTab: 'Initiate' | 'History' | 'Active' = 'Initiate';
 
   awardsColumns: ColumnConfig[] = [
@@ -88,20 +86,16 @@ export class TenderAwardsComponent implements OnInit, OnDestroy {
   secondTableData: TableData[] = [];
   historyTableData: TableData[] = [];
 
-  private selectionSubscription?: Subscription;
-
-  constructor(private dataService: DataService, private dateSelection: DateSelectionService) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.selectionSubscription = this.dateSelection.selection$.subscribe(({ month, year }) => {
-      this.selectedMonth = month;
-      this.selectedYear = year;
-      this.loadData();
-    });
+    this.loadData();
   }
 
-  ngOnDestroy(): void {
-    this.selectionSubscription?.unsubscribe();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedMonth'] || changes['selectedYear']) {
+      this.loadData();
+    }
   }
 
   loadData(): void {
