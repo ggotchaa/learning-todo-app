@@ -26,9 +26,9 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CustomerListComponent } from './pages/customer-list/customer-list.component';
-import { ReportsComponent } from './pages/reports/reports.component';
-import { TenderAwardsComponent } from './pages/tender-awards/tender-awards.component';
+import { ReportsModule } from './pages/reports/reports.module';
+import { TenderAwardsModule } from './pages/tender-awards/tender-awards.module';
+import { CustomerListModule } from './pages/customer-list/customer-list.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -57,9 +57,9 @@ import { TenderAwardsComponent } from './pages/tender-awards/tender-awards.compo
       lucideX
     }),
     AppRoutingModule,
-    ReportsComponent,
-    TenderAwardsComponent,
-    CustomerListComponent
+    ReportsModule,
+    TenderAwardsModule,
+    CustomerListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
