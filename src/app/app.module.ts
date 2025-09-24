@@ -26,12 +26,13 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HomeComponent } from './pages/home/home.component';
 import { ReportsModule } from './pages/reports/reports.module';
 import { TenderAwardsModule } from './pages/tender-awards/tender-awards.module';
 import { CustomerListModule } from './pages/customer-list/customer-list.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
