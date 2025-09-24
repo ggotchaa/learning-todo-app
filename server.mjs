@@ -25,6 +25,28 @@ const MIME_TYPES = {
   '.woff2': 'font/woff2'
 };
 
+function resolveNpmBuildInvocation() {
+  if (process.env.npm_execpath) {
+    return {
+      command: process.execPath,
+      args: [process.env.npm_execpath, 'run', 'build']
+    };
+  }
+
+  if (process.platform === 'win32') {
+    const command = process.env.ComSpec ?? 'cmd.exe';
+    return {
+      command,
+      args: ['/c', 'npm', 'run', 'build']
+    };
+  }
+
+  return {
+    command: 'npm',
+    args: ['run', 'build']
+  };
+}
+
 function ensureBuildOutput() {
   if (process.env.SKIP_BUILD === 'true') {
     if (!existsSync(indexHtmlPath)) {
@@ -35,11 +57,17 @@ function ensureBuildOutput() {
   }
 
   console.log('Building Angular application...');
-  const buildResult = spawnSync('npm', ['run', 'build'], {
+  const { command, args } = resolveNpmBuildInvocation();
+  const buildResult = spawnSync(command, args, {
     cwd: __dirname,
     stdio: 'inherit',
     env: { ...process.env, CI: process.env.CI ?? '1' }
   });
+
+  if (buildResult.error) {
+    console.error('Failed to execute npm build command:', buildResult.error.message);
+    return false;
+  }
 
   if (buildResult.status !== 0) {
     console.error('Angular build failed. Please check the build errors above.');
@@ -142,3 +170,4 @@ const server = http.createServer((req, res) => {
 server.listen(port, () => {
   console.log(`Angular application is available at http://localhost:${port}`);
 });
+
