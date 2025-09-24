@@ -1,10 +1,4 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIcon } from '@ng-icons/core';
 import { AwardData, TableData } from '../../shared/interfaces';
 import { DataService } from '../../services/data.service';
 
@@ -15,8 +9,6 @@ interface ColumnConfig {
 
 @Component({
   selector: 'app-tender-awards',
-  standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatTableModule, MatProgressBarModule, NgIcon],
   templateUrl: './tender-awards.component.html',
   styleUrls: ['./tender-awards.component.css']
 })
