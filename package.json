@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "node server.mjs",
+    "start": "ng serve",
     "dev": "ng serve",
     "build": "ng build",
     "test": "ng test",
