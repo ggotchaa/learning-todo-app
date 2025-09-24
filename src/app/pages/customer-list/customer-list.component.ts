@@ -7,9 +7,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
-import { NgIconComponent } from '@ng-icons/core';
-import { ListFilters, TableData } from '../shared/interfaces';
-import { DataService } from '../services/data.service';
+import { NgIcon } from '@ng-icons/core';
+import { ListFilters, TableData } from '../../shared/interfaces';
+import { DataService } from '../../services/data.service';
 
 interface ColumnConfig {
   key: string;
@@ -28,10 +28,10 @@ interface ColumnConfig {
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    NgIconComponent
+    NgIcon
   ],
   templateUrl: './customer-list.component.html',
-  styleUrl: './customer-list.component.css'
+  styleUrls: ['./customer-list.component.css']
 })
 export class CustomerListComponent implements OnInit, OnChanges {
   @Input() selectedMonth = 'September';

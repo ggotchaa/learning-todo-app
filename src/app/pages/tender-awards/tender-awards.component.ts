@@ -4,9 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIconComponent } from '@ng-icons/core';
-import { AwardData, TableData } from '../shared/interfaces';
-import { DataService } from '../services/data.service';
+import { NgIcon } from '@ng-icons/core';
+import { AwardData, TableData } from '../../shared/interfaces';
+import { DataService } from '../../services/data.service';
 
 interface ColumnConfig {
   key: string;
@@ -16,9 +16,9 @@ interface ColumnConfig {
 @Component({
   selector: 'app-tender-awards',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatTableModule, MatProgressBarModule, NgIconComponent],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatTableModule, MatProgressBarModule, NgIcon],
   templateUrl: './tender-awards.component.html',
-  styleUrl: './tender-awards.component.css'
+  styleUrls: ['./tender-awards.component.css']
 })
 export class TenderAwardsComponent implements OnInit, OnChanges {
   @Input() selectedMonth = 'September';

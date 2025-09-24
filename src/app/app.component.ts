@@ -1,67 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import {
-  lucideArrowUpDown,
-  lucideDownload,
-  lucideFileSpreadsheet,
-  lucideFileText,
-  lucideLock,
-  lucideMoon,
-  lucideRefreshCw,
-  lucideRotateCcw,
-  lucideSun,
-  lucideTrash2,
-  lucideUpload,
-  lucideX
-} from '@ng-icons/lucide';
-
-import { ReportsComponent } from './reports/reports.component';
-import { TenderAwardsComponent } from './tender-awards/tender-awards.component';
-import { CustomerListComponent } from './customer-list/customer-list.component';
 import { SecretTableData } from './shared/interfaces';
 import { mockSecretTableData } from './shared/mock-data';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatCardModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    NgIconComponent,
-    ReportsComponent,
-    TenderAwardsComponent,
-    CustomerListComponent
-  ],
-  providers: [
-    provideIcons({
-      lucideArrowUpDown,
-      lucideDownload,
-      lucideFileSpreadsheet,
-      lucideFileText,
-      lucideLock,
-      lucideMoon,
-      lucideRefreshCw,
-      lucideRotateCcw,
-      lucideSun,
-      lucideTrash2,
-      lucideUpload,
-      lucideX
-    })
-  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   selectedMonth = 'September';
