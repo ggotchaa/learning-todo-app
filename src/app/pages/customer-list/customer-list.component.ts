@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,7 +9,9 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { NgIconsModule } from '@ng-icons/core';
+import { Subscription } from 'rxjs';
 
+import { DateSelectionService } from '../../services/date-selection.service';
 import { DataService } from '../../services/data.service';
 import { ListFilters, TableData } from '../../shared/interfaces';
 
@@ -36,9 +38,9 @@ interface ColumnConfig {
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css']
 })
-export class CustomerListComponent implements OnInit, OnChanges {
-  @Input() selectedMonth = 'September';
-  @Input() selectedYear = '2024';
+export class CustomerListComponent implements OnInit, OnDestroy {
+  selectedMonth = 'September';
+  selectedYear = '2024';
 
   listFilters: ListFilters = {
     multipleCustomers: '',
@@ -75,21 +77,24 @@ export class CustomerListComponent implements OnInit, OnChanges {
   displayedColumns = this.columns.map(column => column.key);
   listTableData: TableData[] = [];
 
-  constructor(private dataService: DataService) {}
+  private selectionSubscription?: Subscription;
+
+  constructor(private dataService: DataService, private dateSelection: DateSelectionService) {}
 
   ngOnInit(): void {
-    this.updateFiltersFromInput();
-    this.loadData();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedMonth'] || changes['selectedYear']) {
-      this.updateFiltersFromInput();
+    this.selectionSubscription = this.dateSelection.selection$.subscribe(({ month, year }) => {
+      this.selectedMonth = month;
+      this.selectedYear = year;
+      this.updateFiltersFromSelection();
       this.loadData();
-    }
+    });
   }
 
-  updateFiltersFromInput(): void {
+  ngOnDestroy(): void {
+    this.selectionSubscription?.unsubscribe();
+  }
+
+  updateFiltersFromSelection(): void {
     this.listFilters.month = this.selectedMonth !== 'None' ? this.selectedMonth.toLowerCase() : '';
     this.listFilters.year = this.selectedYear;
   }
