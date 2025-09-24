@@ -9,6 +9,7 @@ interface ColumnConfig {
 
 @Component({
   selector: 'app-tender-awards',
+  standalone: false,
   templateUrl: './tender-awards.component.html',
   styleUrls: ['./tender-awards.component.css']
 })

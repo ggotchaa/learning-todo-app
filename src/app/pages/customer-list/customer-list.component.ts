@@ -9,6 +9,7 @@ interface ColumnConfig {
 
 @Component({
   selector: 'app-customer-list',
+  standalone: false,
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css']
 })

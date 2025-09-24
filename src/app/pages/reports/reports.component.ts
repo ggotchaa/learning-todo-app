@@ -4,6 +4,7 @@ import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-reports',
+  standalone: false,
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css']
 })
