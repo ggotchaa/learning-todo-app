@@ -1,0 +1,33 @@
+.list-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.export-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.range-field {
+  width: 8rem;
+}
+
+.list-card .table-container {
+  overflow: auto;
+}
+
+.table-container table {
+  width: 100%;
+}

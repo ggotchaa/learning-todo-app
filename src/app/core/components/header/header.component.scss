@@ -1,0 +1,16 @@
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 0 16px;
+  background-color: rgb(10, 157, 258);
+}
+
+.toolbar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1;
+}
