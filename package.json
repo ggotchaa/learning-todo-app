@@ -28,9 +28,13 @@
     "zone.js": "~0.14.4"
   },
   "overrides": {
-    "critters": "file:third_party/critters",
-    "glob": "file:third_party/glob",
-    "rimraf": "file:third_party/rimraf"
+    "critters": "0.0.27",
+    "glob": "10.4.5",
+    "rimraf": "5.0.9",
+    "karma": {
+      "glob": "10.4.5",
+      "rimraf": "5.0.9"
+    }
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.0",
