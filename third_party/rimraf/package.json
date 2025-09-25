@@ -1,0 +1,11 @@
+{
+  "name": "rimraf",
+  "version": "4.4.1-local",
+  "description": "Local fs.rm based replacement for rimraf",
+  "main": "index.js",
+  "bin": {
+    "rimraf": "bin.js"
+  },
+  "license": "MIT",
+  "type": "commonjs"
+}

@@ -27,6 +27,11 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"
   },
+  "overrides": {
+    "critters": "file:third_party/critters",
+    "glob": "file:third_party/glob",
+    "rimraf": "file:third_party/rimraf"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.0",
     "@angular/cli": "^18.2.0",

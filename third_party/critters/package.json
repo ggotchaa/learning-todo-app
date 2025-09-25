@@ -1,0 +1,8 @@
+{
+  "name": "critters",
+  "version": "0.0.25-local",
+  "description": "Lightweight critical CSS inliner replacement used for security-patched build",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "commonjs"
+}
