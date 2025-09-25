@@ -64,6 +64,11 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "dev": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -76,6 +81,9 @@
             },
             "development": {
               "buildTarget": "angulartest:build:development"
+            },
+            "dev": {
+              "buildTarget": "angulartest:build:dev"
             }
           },
           "defaultConfiguration": "development"
@@ -107,5 +115,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
