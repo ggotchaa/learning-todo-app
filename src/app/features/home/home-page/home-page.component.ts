@@ -24,9 +24,9 @@ interface SecretTableRow {
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   readonly tabs: ToolbarTab[] = [
-    { id: 'reports', label: 'Reports' },
+    { id: 'reports', label: 'Bidding Reports' },
     { id: 'tender-awards', label: 'Tender Awards' },
-    { id: 'customers', label: 'Customers' }
+    { id: 'customers', label: 'Customer List' }
   ];
 
   readonly months: string[];
