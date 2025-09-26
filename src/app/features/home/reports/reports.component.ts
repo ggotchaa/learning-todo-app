@@ -5,16 +5,18 @@ import { HomeFiltersService } from '../services/home-filters.service';
 
 interface ReportsRow {
   name: string;
-  vl: number;
-  vl2: number;
-  vibt: number;
-  avg: number;
-  avgB: number;
+  totalBidVolume: number;
+  totalBidVolumePr: number;
+  totalBidVolumePp: number;
+  weightedAvgPr: number;
+  weightedAvgPp: number;
   month: string;
   year: number;
   historyFiles: string[];
-  status: 'Active' | 'Draft' | 'Complete';
+  reportFile: string;
+  status: 'Active' | 'Pending' | 'Complete';
   locked: boolean;
+  exception: boolean;
 }
 
 @Component({
@@ -24,62 +26,96 @@ interface ReportsRow {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReportsComponent implements OnDestroy {
-  readonly displayedColumns: string[] = [
-    'name',
-    'vl',
-    'vl2',
-    'vibt',
-    'avg',
-    'avgB',
-    'month',
-    'year',
-    'history',
-    'report',
-    'status',
-    'locked',
-    'exception',
-    'delete'
-  ];
-
   readonly reportsData: ReportsRow[] = [
     {
-      name: 'Monthly Awards Overview',
-      vl: 1250,
-      vl2: 980,
-      vibt: 74,
-      avg: 1.24,
-      avgB: 1.12,
+      name: 'RoK LPG Tender Awards Analysis January 2020',
+      totalBidVolume: 10360,
+      totalBidVolumePr: 5203,
+      totalBidVolumePp: 18.17,
+      weightedAvgPr: 0.94,
+      weightedAvgPp: 17.35,
       month: 'January',
-      year: 2024,
-      historyFiles: ['Overview.pdf', 'Monthly-Notes.docx'],
-      status: 'Active',
-      locked: false
+      year: 2020,
+      historyFiles: ['history_001.pdf', 'log_001.txt'],
+      reportFile: 'report_001.pdf',
+      status: 'Pending',
+      locked: false,
+      exception: true
     },
     {
-      name: 'Bidder Trend Summary',
-      vl: 980,
-      vl2: 860,
-      vibt: 67,
-      avg: 1.17,
-      avgB: 1.03,
-      month: 'February',
-      year: 2024,
-      historyFiles: ['Summary.xlsx'],
-      status: 'Draft',
-      locked: true
-    },
-    {
-      name: 'Regional Breakdown',
-      vl: 1430,
-      vl2: 1205,
-      vibt: 81,
-      avg: 1.31,
-      avgB: 1.2,
+      name: 'RoK LPG Tender Awards Analysis March 2020',
+      totalBidVolume: 12080,
+      totalBidVolumePr: 6640,
+      totalBidVolumePp: 19.64,
+      weightedAvgPr: 1.06,
+      weightedAvgPp: 18.42,
       month: 'March',
-      year: 2023,
-      historyFiles: ['Exports.csv', 'Archive.pdf'],
+      year: 2020,
+      historyFiles: ['history_002.pdf', 'notes_003.docx'],
+      reportFile: 'report_002.pdf',
       status: 'Complete',
-      locked: false
+      locked: true,
+      exception: false
+    },
+    {
+      name: 'RoK LPG Tender Awards Analysis October 2022',
+      totalBidVolume: 9870,
+      totalBidVolumePr: 5480,
+      totalBidVolumePp: 17.08,
+      weightedAvgPr: 0.89,
+      weightedAvgPp: 16.74,
+      month: 'October',
+      year: 2022,
+      historyFiles: ['history_003.pdf', 'log_004.txt'],
+      reportFile: 'report_003.pdf',
+      status: 'Active',
+      locked: false,
+      exception: true
+    },
+    {
+      name: 'RoK LPG Tender Awards Analysis November 2022',
+      totalBidVolume: 9745,
+      totalBidVolumePr: 5342,
+      totalBidVolumePp: 16.88,
+      weightedAvgPr: 0.92,
+      weightedAvgPp: 16.09,
+      month: 'November',
+      year: 2022,
+      historyFiles: ['history_004.pdf', 'log_005.txt'],
+      reportFile: 'report_004.pdf',
+      status: 'Pending',
+      locked: true,
+      exception: false
+    },
+    {
+      name: 'RoK LPG Tender Awards Analysis December 2022',
+      totalBidVolume: 11030,
+      totalBidVolumePr: 6021,
+      totalBidVolumePp: 18.92,
+      weightedAvgPr: 1.04,
+      weightedAvgPp: 17.86,
+      month: 'December',
+      year: 2022,
+      historyFiles: ['history_005.pdf', 'notes_006.docx'],
+      reportFile: 'report_005.pdf',
+      status: 'Complete',
+      locked: false,
+      exception: true
+    },
+    {
+      name: 'RoK LPG Tender Awards Analysis January 2023',
+      totalBidVolume: 12560,
+      totalBidVolumePr: 7125,
+      totalBidVolumePp: 19.74,
+      weightedAvgPr: 1.12,
+      weightedAvgPp: 18.65,
+      month: 'January',
+      year: 2023,
+      historyFiles: ['history_006.pdf', 'log_007.txt'],
+      reportFile: 'report_006.pdf',
+      status: 'Complete',
+      locked: true,
+      exception: false
     }
   ];
 
@@ -109,12 +145,16 @@ export class ReportsComponent implements OnDestroy {
     switch (status) {
       case 'Active':
         return 'status status--active';
-      case 'Draft':
-        return 'status status--draft';
+      case 'Pending':
+        return 'status status--pending';
       case 'Complete':
         return 'status status--complete';
       default:
         return 'status';
     }
+  }
+
+  exceptionClass(hasException: ReportsRow['exception']): string {
+    return hasException ? 'exception-chip exception-chip--active' : 'exception-chip';
   }
 }
