@@ -23,7 +23,7 @@ parameters:
       - test
       - prod
   - name: isDeployTestActive
-    displayName: Deploy Test
+    displayName: Deploy App
     type: boolean
     default: false
   - name: isGHAzDO
