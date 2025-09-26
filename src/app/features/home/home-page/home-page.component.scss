@@ -1,4 +1,4 @@
-﻿:host {
+:host {
   display: block;
   padding: 1.5rem 0;
 }
@@ -69,6 +69,12 @@
   margin-bottom: 1rem;
 }
 
+.secret-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .table-container {
   max-height: 320px;
   overflow: auto;
@@ -107,3 +113,4 @@ th {
     }
   }
 }
+

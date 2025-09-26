@@ -48,7 +48,9 @@
 <div *ngIf="showSecretPopup" class="secret-dialog" role="dialog" aria-modal="true">
   <mat-card class="material-card secret-card">
     <header class="secret-header">
-      <h3>Customer Name Mapping</h3>
+      <div class="secret-title">
+        <h3>Customer Name Mapping</h3>
+      </div>
       <button mat-icon-button type="button" (click)="closeSecretPopup()" aria-label="Close">
         <mat-icon>close</mat-icon>
       </button>
