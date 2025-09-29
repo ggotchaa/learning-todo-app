@@ -1,6 +1,6 @@
 <main class="app-shell">
   <mat-card class="material-card control-card" role="region" aria-label="Bidding platform toolbar">
-    <header class="control-toolbar">
+    <div class="control-toolbar">
       <div class="toolbar-left">
         <h1 class="toolbar-title">Bidding Platform</h1>
         <div class="tab-row">
@@ -40,7 +40,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-    </header>
+    </div>
   </mat-card>
 
   <section class="view-container">
@@ -50,14 +50,14 @@
 
 <div *ngIf="showSecretPopup" class="secret-dialog" role="dialog" aria-modal="true">
   <mat-card class="material-card secret-card">
-    <header class="secret-header">
+    <div class="secret-header">
       <div class="secret-title">
         <h3>Customer Name Mapping</h3>
       </div>
       <button mat-icon-button type="button" (click)="closeSecretPopup()" aria-label="Close">
         <mat-icon>close</mat-icon>
       </button>
-    </header>
+    </div>
     <div class="table-container">
       <table>
         <thead>
