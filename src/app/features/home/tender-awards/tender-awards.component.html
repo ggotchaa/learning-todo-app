@@ -27,33 +27,37 @@
 
 <ng-container [ngSwitch]="activeTab">
   <mat-card *ngSwitchCase="'Initiate'" class="material-card initiate-card">
+    <h3 class="initiate-title">Tender award analysis report details</h3>
+
     <div class="step-grid">
-      <div class="step">
-        <span class="step-number">1</span>
-        <h3>Data Collection</h3>
-        <p>Gather documents and information required for processing.</p>
-        <button mat-stroked-button color="primary">Start Collection</button>
+      <div class="step-card step-card--collect">
+        <span class="step-badge">1</span>
+        <h4>Data Collection</h4>
+        <p>Gather all required documents and information needed for processing.</p>
+        <button mat-raised-button color="primary">Start Collection</button>
       </div>
-      <div class="step">
-        <span class="step-number">2</span>
-        <h3>Processing</h3>
-        <p>Analyze the collected data in the system.</p>
-        <button mat-stroked-button disabled>Processing</button>
+
+      <div class="step-card step-card--process">
+        <span class="step-badge">2</span>
+        <h4>Processing</h4>
+        <p>Analyze and process the collected data through our system.</p>
+        <span class="status-chip status-chip--processing">Processing</span>
       </div>
-      <div class="step">
-        <span class="step-number">3</span>
-        <h3>Completion</h3>
-        <p>Review results and finalize the awards.</p>
-        <button mat-stroked-button disabled>Complete</button>
+
+      <div class="step-card step-card--complete">
+        <span class="step-badge">3</span>
+        <h4>Completion</h4>
+        <p>Review results and finalize the awarded nominations.</p>
+        <span class="status-chip status-chip--complete">Complete</span>
       </div>
     </div>
 
-    <p class="formula">Performance = (Lifted PR + Lifted BT) / (Nominated PR + Nominated BT)</p>
+    <p class="formula">Calculating Performance (%) = (Lifted PR + Lifted BT) / (Nominated PR + Nominated BT)</p>
 
     <mat-card class="material-card progress-card">
       <div class="progress-header">
         <strong>Current Progress</strong>
-        <span>Step 1 of 3</span>
+        <span class="progress-meta">Step 1 of 3</span>
       </div>
       <mat-progress-bar mode="determinate" value="33"></mat-progress-bar>
       <div class="progress-actions">
