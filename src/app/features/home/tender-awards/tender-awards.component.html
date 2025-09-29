@@ -26,46 +26,49 @@
 </mat-card>
 
 <ng-container [ngSwitch]="activeTab">
-  <mat-card *ngSwitchCase="'Initiate'" class="material-card initiate-card">
-    <h3 class="initiate-title">Tender award analysis report details</h3>
+<mat-card *ngSwitchCase="'Initiate'" class="material-card initiate-card">
+  <h3 class="initiate-title">Tender award analysis report details</h3>
 
-    <div class="step-grid">
-      <div class="step-card step-card--collect">
-        <span class="step-badge">1</span>
-        <h4>Data Collection</h4>
-        <p>Gather all required documents and information needed for processing.</p>
-        <button mat-raised-button color="primary">Start Collection</button>
-      </div>
-
-      <div class="step-card step-card--process">
-        <span class="step-badge">2</span>
-        <h4>Processing</h4>
-        <p>Analyze and process the collected data through our system.</p>
-        <span class="status-chip status-chip--processing">Processing</span>
-      </div>
-
-      <div class="step-card step-card--complete">
-        <span class="step-badge">3</span>
-        <h4>Completion</h4>
-        <p>Review results and finalize the awarded nominations.</p>
-        <span class="status-chip status-chip--complete">Complete</span>
-      </div>
+  <div class="step-grid">
+    <div class="step-card step-card--collect has-arrow">
+      <span class="step-badge step-badge--blue">1</span>
+      <h4>Data Collection</h4>
+      <p>Gather all required documents and information needed for processing.</p>
+      <button mat-raised-button color="primary">Start Collection</button>
     </div>
 
-    <p class="formula">Calculating Performance (%) = (Lifted PR + Lifted BT) / (Nominated PR + Nominated BT)</p>
+    <div class="step-card step-card--process has-arrow">
+      <span class="step-badge step-badge--orange">2</span>
+      <h4>Processing</h4>
+      <p>Analyze and process the collected data through our system.</p>
+      <span class="status-chip status-chip--processing">Processing</span>
+    </div>
 
-    <mat-card class="material-card progress-card">
-      <div class="progress-header">
-        <strong>Current Progress</strong>
-        <span class="progress-meta">Step 1 of 3</span>
-      </div>
-      <mat-progress-bar mode="determinate" value="33"></mat-progress-bar>
-      <div class="progress-actions">
-        <button mat-raised-button color="primary">Get Shipments</button>
-        <button mat-stroked-button>Analyze History</button>
-      </div>
-    </mat-card>
+    <div class="step-card step-card--complete">
+      <span class="step-badge step-badge--green">3</span>
+      <h4>Completion</h4>
+      <p>Review results and finalize the awarded nominations.</p>
+      <span class="status-chip status-chip--complete">Complete</span>
+    </div>
+  </div>
+
+  <p class="formula">
+    Calculating Performance(%) = (Lifted PR + Lifted BT)/(Nominated PR + Nominated BT)
+  </p>
+
+  <mat-card class="material-card progress-card">
+    <div class="progress-header">
+      <strong>Current Progress</strong>
+      <span class="progress-meta">Step 1 of 3</span>
+    </div>
+    <mat-progress-bar mode="determinate" value="33"></mat-progress-bar>
+    <div class="progress-actions">
+      <button mat-raised-button color="primary">Get Shipments</button>
+      <button mat-stroked-button>Analyze History</button>
+    </div>
   </mat-card>
+</mat-card>
+
 
   <mat-card *ngSwitchCase="'History'" class="material-card history-card">
     <h3>Historical Data</h3>
