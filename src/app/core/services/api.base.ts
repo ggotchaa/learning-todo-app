@@ -6,9 +6,10 @@ import axios, {
   InternalAxiosRequestConfig
 } from 'axios';
 import { from, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
-const DEFAULT_API_BASE_URL = 'https://jsonplaceholder.typicode.com';
+const DEFAULT_API_BASE_URL = environment.apiBaseUrl;
 
 type RequestConfig = AxiosRequestConfig;
 
@@ -71,3 +72,4 @@ export class ApiService {
     return new Error('An unexpected error occurred.');
   }
 }
+

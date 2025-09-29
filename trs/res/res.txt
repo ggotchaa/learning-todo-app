@@ -1,5 +1,5 @@
 
-https://tcobid-backend-dev.azurewebsites.net/api/BiddingReports
+https://tcobid-backend-dev.azurewebsites.net/api
 Report Name	Month	Year	Date	Status	Past History Analysis	Total Volume BT	Total Volume PR	Weighted Average BT	Weighted Average PR	Total Bid Volume	File
 [
     {
