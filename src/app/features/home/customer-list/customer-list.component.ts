@@ -26,6 +26,8 @@ interface CustomerListFilters {
   rangeTo: string;
 }
 
+type ProductSegment = 'all' | 'propane' | 'butane';
+
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
@@ -33,6 +35,14 @@ interface CustomerListFilters {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomerListComponent implements OnDestroy {
+  readonly productSegments: ReadonlyArray<{ id: ProductSegment; label: string }> = [
+    { id: 'all', label: 'All' },
+    { id: 'propane', label: 'Propane' },
+    { id: 'butane', label: 'Butane' }
+  ];
+
+  activeProductSegment: ProductSegment = 'all';
+
   readonly columns: CustomerListColumn[] = [
     { key: 'bidder', label: 'Bidder' },
     { key: 'region', label: 'Region' },
@@ -111,6 +121,10 @@ export class CustomerListComponent implements OnDestroy {
 
   resetListFilter<Key extends keyof CustomerListFilters>(key: Key): void {
     this.listFilters[key] = '' as CustomerListFilters[Key];
+  }
+
+  selectProductSegment(segment: ProductSegment): void {
+    this.activeProductSegment = segment;
   }
 
   valueFor(row: CustomerListRow, key: keyof CustomerListRow): string | number {
