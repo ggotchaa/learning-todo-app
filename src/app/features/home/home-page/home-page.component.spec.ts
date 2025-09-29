@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { ApiService } from '../../../core/services/api.service';
+import { ApiService } from '../../../core/services/api.base';
 import { MaterialModule } from '../../../shared/material/material.module';
 import { HomePageComponent } from './home-page.component';
 
