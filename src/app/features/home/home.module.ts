@@ -9,13 +9,15 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ReportsComponent } from './reports/reports.component';
 import { HomeFiltersService } from './services/home-filters.service';
 import { TenderAwardsComponent } from './tender-awards/tender-awards.component';
+import { TenderStatusDialogComponent } from './tender-awards/status-change-dialog/tender-status-dialog.component';
 
 @NgModule({
   declarations: [
     HomePageComponent,
     ReportsComponent,
     CustomerListComponent,
-    TenderAwardsComponent
+    TenderAwardsComponent,
+    TenderStatusDialogComponent
   ],
   imports: [CommonModule, FormsModule, HomeRoutingModule, MaterialModule],
   providers: [HomeFiltersService]

@@ -72,7 +72,7 @@
 }
 
 .step-card.has-arrow::after {
-  content: "→";
+  content: '\2192';
   position: absolute;
   right: -1.25rem;
   top: 50%;
@@ -156,9 +156,15 @@
   font-weight: 700;
 }
 
-:host ::ng-deep .mat-mdc-progress-bar .mdc-linear-progress { height: 0.625rem; border-radius: 999px; }
+:host ::ng-deep .mat-mdc-progress-bar .mdc-linear-progress {
+  height: 0.625rem;
+  border-radius: 999px;
+}
+
 :host ::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__bar,
-:host ::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__buffer { border-radius: 999px; }
+:host ::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__buffer {
+  border-radius: 999px;
+}
 
 .progress-actions {
   display: flex;
@@ -167,10 +173,64 @@
   margin-top: 1rem;
 }
 
-.table-container { overflow: auto; }
-.active-view { display: grid; gap: 1rem; }
+.table-container {
+  overflow: auto;
+}
+
+.active-view {
+  display: grid;
+  gap: 1rem;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 6.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #000;
+  text-transform: capitalize;
+}
+
+.status-badge--pending {
+  background: rgba(250, 204, 21, 0.5);
+  color: #000;
+}
+
+.status-badge--active {
+  background: rgba(37, 99, 235, 0.5);
+  color: #000;
+}
+
+.status-badge--completed {
+  background: rgba(34, 197, 94, 0.5);
+  color: #000;
+}
+
+.status-badge--default {
+  background: rgba(148, 163, 184, 0.3);
+  color: #000;
+}
+
+.mat-column-actions {
+  white-space: nowrap;
+}
 
 @media (max-width: 64rem) {
-  .step-grid { grid-template-columns: 1fr; }
-  .step-card.has-arrow::after { display: none; }
+  .step-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step-card.has-arrow::after {
+    display: none;
+  }
 }
