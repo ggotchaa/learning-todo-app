@@ -1,55 +1,21 @@
-
-https://tcobid-backend-dev.azurewebsites.net/api
-Report Name	Month	Year	Date	Status	Past History Analysis	Total Volume BT	Total Volume PR	Weighted Average BT	Weighted Average PR	Total Bid Volume	File
-[
-    {
-        "id": 1,
-        "reportName": "RoK LPG Tender Award Analysis January 2022 (Exception Report)",
-        "reportMonth": "1",
-        "reportYear": 2022,
-        "reportDate": "2022-01-01T00:00:00",
-        "status": "Closed",
-        "totalButaneVolume": 537.00,
-        "totalPropaneVolume": 6176.00,
-        "weightedAvgButanePrice": 320.40,
-        "weightedAvgPropanePrice": 417.17,
-        "weightedTotalPrice": null,
-        "previousReportLink": null,
-        "filePath": "https://chevron-my.sharepoint.com/:b:/g/personal/gggd_tengizchevroil_com/Ec9uJkg66TFIq91RyDhpnYYBVyLg1jafnbTHhqMAWWAu7A",
-        "fileName": "RoK LPG Tender Award Analysis 2022_January.pdf",
-        "totalVolume": 6713.00
-    },
-    {
-        "id": 2,
-        "reportName": "RoK LPG Tender Award Analysis February 2022 (Exception Report)",
-        "reportMonth": "2",
-        "reportYear": 2022,
-        "reportDate": "2022-02-01T00:00:00",
-        "status": "Closed",
-        "totalButaneVolume": 2212.00,
-        "totalPropaneVolume": 5790.00,
-        "weightedAvgButanePrice": 93.60,
-        "weightedAvgPropanePrice": 114.11,
-        "weightedTotalPrice": null,
-        "previousReportLink": null,
-        "filePath": "https://chevron-my.sharepoint.com/:b:/g/personal/gggd_tengizchevroil_com/EQggEkBFS8JNslw8QQPPxtgBA2KvSabEq_tZLS8-nfz6Nw",
-        "fileName": "RoK LPG Tender Award Analysis 2022_February.pdf",
-        "totalVolume": 8002.00
-    },
-    {
-        "id": 4,
-        "reportName": "RoK LPG Tender Award Analysis March 2022",
-        "reportMonth": "3",
-        "reportYear": 2022,
-        "reportDate": "2022-03-01T00:00:00",
-        "status": "Completed",
-        "totalButaneVolume": 2485.00,
-        "totalPropaneVolume": 7520.00,
-        "weightedAvgButanePrice": 92.25,
-        "weightedAvgPropanePrice": 107.38,
-        "weightedTotalPrice": null,
-        "previousReportLink": null,
-        "filePath": "https://chevron-my.sharepoint.com/:b:/g/personal/gggd_tengizchevroil_com/EQd7oveH9ftCoL-9wW8TLkIBLkEgkMSj-cxeZkAn8yUIDA",
-        "fileName": "RoK LPG Tender Award Analysis 2021-2022_March.pdf",
-        "totalVolume": 10005.00
-    },
+1) Statuses in Bidding Reports should be Pending (Yellow, with Black text) Opacity 50% of background color. Active should be blue; Completed green. Opacity 50% everywhere. 2) Sorting buttons should be as per Previous Diagram (Table) in PowerApps. 3) Tender awards :
+ 
+remove Product column: 
+ 
+cause it is obvious everywhere
+ 
+and rank per price should be first column
+ 
+3a) In Tender awards add Unit Of Measurement in Prices for example $ sign
+ 
+ 
+1) Calculate make as 1 button: where should be as per hover open other context menu where should be Calculate 12 month RLF. Calculate Summary; 2) Export also 1 button and should be as Calculate. Opens other menus: Export to Excel or Export to PDF
+ 
+Last uberi pls gradient na vkladkhah Bidding Platform. Make just consistent color. #EEF2FE 
+ 
+background color
+ 
+ewe bug nashel na malen'kom moem ekrane reports plivet
+ 
+statuses cveta ostav' kak na mockups tol'ko sdelai ih opacity 50% and textcolor black
+ 
