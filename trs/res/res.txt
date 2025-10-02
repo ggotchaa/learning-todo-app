@@ -18,4 +18,30 @@ background color
 ewe bug nashel na malen'kom moem ekrane reports plivet
  
 statuses cveta ostav' kak na mockups tol'ko sdelai ih opacity 50% and textcolor black
+
+
+
+
+
+
+
+/api/biddingreports/{id}
+
+
+"id": 17,
+  "reportName": "RoK LPG Tender Award Analysis May 2022",
+  "reportMonth": "5",
+  "reportYear": 2022,
+  "reportDate": "2022-05-01T00:00:00",
+  "status": "Completed",
+  "totalButaneVolume": 7630,
+  "totalPropaneVolume": 2688,
+  "weightedAvgButanePrice": 61.96,
+  "weightedAvgPropanePrice": 67.55,
+  "weightedTotalPrice": null,
+  "biddingHistoryAnalysis": null,
+  "previousReportLink": null,
+  "filePath": "https://chevron-my.sharepoint.com/:b:/g/personal/gggd_tengizchevroil_com/EX6G4MP0OB9MrdB6oz85B5IBrltuDK5TIFCP2tmW-WhTEA",
+  "fileName": "RoK LPG Tender Award Allocation for May-2022.pdf",
+  "totalVolume": 10318
  
