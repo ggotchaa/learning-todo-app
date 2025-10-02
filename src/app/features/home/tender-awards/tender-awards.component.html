@@ -154,5 +154,88 @@
         </table>
       </div>
     </mat-card>
+    <!-- KPI strip -->
+<mat-card class="material-card kpi-strip">
+  <div class="kpi-item">
+    <div class="kpi-value">1000</div>
+    <div class="kpi-label">Sum of bid volume for butane</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-value">1000</div>
+    <div class="kpi-label">Weighted average for butane</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-value neg">-3</div>
+    <div class="kpi-label">Difference with previous month price</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-value">1000</div>
+    <div class="kpi-label">Total butane for RK</div>
+  </div>
+</mat-card>
+
+<!-- Two-column view -->
+<div class="active-two-col">
+  <!-- Left column -->
+  <mat-card class="material-card left-stats">
+    <div class="pill-list">
+      <div class="pill pill-green">
+        <span class="pill-value">50</span>
+        <span class="pill-text">Invited Buyers for SEPTEMBER'S</span>
+      </div>
+      <div class="pill pill-yellow">
+        <span class="pill-value">30</span>
+        <span class="pill-text">Participated Buyers</span>
+      </div>
+    </div>
+
+    <div class="left-actions">
+      <button mat-raised-button color="primary">Open Comments</button>
+      <button mat-raised-button color="accent" class="ml-8">Calculate Summary</button>
+    </div>
+
+    <div class="min-price">
+      Min entry price <strong>Propane: 2000</strong>, <strong>Butane: 2000</strong>
+    </div>
+  </mat-card>
+
+  <!-- Right column -->
+  <mat-card class="material-card right-upload">
+    <div class="totals">
+      <div class="totals-row">
+        <span>Total bid volume:</span>
+        <a href="#" class="link">20000</a>
+      </div>
+      <div class="totals-row">
+        <span>Total LPG for RK:</span>
+        <a href="#" class="link">5000</a>
+      </div>
+      <div class="totals-row">
+        <span>Weighted average:</span>
+        <span>200</span>
+      </div>
+    </div>
+
+    <div class="dropzone">
+      <div class="upload-icon">⤴</div>
+      <div class="upload-text">Drop files here or click to upload</div>
+      <button mat-stroked-button>
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-raised-button color="primary">Choose Files</button>
+    </div>
+  </mat-card>
+</div>
+
+<!-- Bottom actions row -->
+<div class="bottom-actions">
+  <button mat-stroked-button>Calculate 12 months RLF</button>
+  <button mat-stroked-button>Manage Signers</button>
+  <button mat-stroked-button>Export to Excel</button>
+  <button mat-stroked-button>Export to PDF</button>
+  <button mat-stroked-button>Open & Download</button>
+  <button mat-stroked-button color="warn">Delete PDF</button>
+</div>
+
   </div>
 </ng-container>

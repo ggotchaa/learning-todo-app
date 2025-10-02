@@ -234,3 +234,125 @@
     display: none;
   }
 }
+
+/* KPI strip */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 12px 16px;
+  margin-top: 16px;
+
+  .kpi-item {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2563eb;
+    &.neg { color: #e11d48; }
+  }
+  .kpi-label {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #475569;
+  }
+}
+
+/* Two columns block */
+.active-two-col {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* Left column pills */
+.left-stats .pill-list {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  .pill {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px 12px;
+    box-shadow: inset 0 0 0 1px #e5e7eb;
+  }
+  .pill-green .pill-value { background: #d1fae5; color: #059669; }
+  .pill-yellow .pill-value { background: #fef3c7; color: #b45309; }
+
+  .pill-value {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  .pill-text { font-size: 14px; color: #334155; }
+}
+
+.left-actions {
+  display: flex;
+  gap: 12px;
+  margin: 8px 0 12px;
+}
+.ml-8 { margin-left: 8px; }
+
+.min-price {
+  font-size: 13px;
+  color: #475569;
+}
+
+/* Right column totals + dropzone */
+.right-upload .totals {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  .totals-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #334155;
+
+    .link { color: #2563eb; text-decoration: none; }
+  }
+}
+
+.dropzone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 28px 16px;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+
+  .upload-icon { font-size: 28px; line-height: 1; color: #64748b; }
+  .upload-text { font-size: 14px; color: #475569; }
+}
+
+/* Bottom actions row */
+.bottom-actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 12px;
+  margin: 16px 0 4px;
+}
+
+@media (max-width: 1100px) {
+  .kpi-strip { grid-template-columns: 1fr 1fr; }
+  .active-two-col { grid-template-columns: 1fr; }
+  .bottom-actions { grid-auto-flow: row; grid-auto-columns: unset; }
+}
