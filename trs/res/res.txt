@@ -1,3 +1,4 @@
+https://www.figma.com/site/WzOnT9yeZydnmdWaql96TZ/Bidding-Tool-Angular?node-id=19-11&t=J7BqQ3Z5qHlLKzP0-1
 1) Statuses in Bidding Reports should be Pending (Yellow, with Black text) Opacity 50% of background color. Active should be blue; Completed green. Opacity 50% everywhere. 2) Sorting buttons should be as per Previous Diagram (Table) in PowerApps. 3) Tender awards :
  
 remove Product column: 
