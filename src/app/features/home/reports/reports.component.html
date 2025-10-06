@@ -25,7 +25,11 @@
         </tr>
       </thead>
       <tbody *ngIf="reports$ | async as reports; else emptyState">
-        <tr *ngFor="let row of reports; trackBy: trackByReportId">
+        <tr
+          *ngFor="let row of reports; trackBy: trackByReportId"
+          class="reports-row"
+          (click)="openReportDetails(row)"
+        >
           <td data-label="Report Name">
             <a
               mat-button
@@ -33,6 +37,7 @@
               [href]="row.reportLink"
               target="_blank"
               rel="noopener"
+              (click)="$event.stopPropagation()"
             >
               {{ row.name }}
             </a>
@@ -54,6 +59,7 @@
                   [href]="file"
                   target="_blank"
                   rel="noopener"
+                  (click)="$event.stopPropagation()"
                 >
                   History {{ i + 1 }}
                 </a>
@@ -72,6 +78,7 @@
                 target="_blank"
                 rel="noopener"
                 [attr.aria-label]="'Download ' + row.reportFile"
+                (click)="$event.stopPropagation()"
               >
                 <mat-icon>file_download</mat-icon>
               </a>
@@ -82,6 +89,7 @@
                 target="_blank"
                 rel="noopener"
                 [attr.aria-label]="'Preview ' + row.reportFile"
+                (click)="$event.stopPropagation()"
               >
                 <mat-icon>description</mat-icon>
               </a>
@@ -97,6 +105,7 @@
               class="lock-button"
               [class.lock-button--locked]="row.locked"
               [attr.aria-label]="row.locked ? 'Unlock report' : 'Lock report'"
+              (click)="$event.stopPropagation()"
             >
               <mat-icon>{{ row.locked ? 'lock' : 'lock_open' }}</mat-icon>
             </button>
@@ -107,7 +116,13 @@
             </span>
           </td>
           <td data-label="Delete">
-            <button mat-icon-button type="button" class="delete-button" aria-label="Delete report">
+            <button
+              mat-icon-button
+              type="button"
+              class="delete-button"
+              aria-label="Delete report"
+              (click)="$event.stopPropagation()"
+            >
               <mat-icon>delete_outline</mat-icon>
             </button>
           </td>
