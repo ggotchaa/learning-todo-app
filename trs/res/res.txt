@@ -45,4 +45,26 @@ statuses cveta ostav' kak na mockups tol'ko sdelai ih opacity 50% and textcolor 
   "filePath": "https://chevron-my.sharepoint.com/:b:/g/personal/gggd_tengizchevroil_com/EX6G4MP0OB9MrdB6oz85B5IBrltuDK5TIFCP2tmW-WhTEA",
   "fileName": "RoK LPG Tender Award Allocation for May-2022.pdf",
   "totalVolume": 10318
+
+
+
+
+
+
+Configure authentication and authorization in the Angular application using the Chevron Authentication Library (CAL).
+
+MSAL Integration:
+Set up MSAL in the Angular app to enable Azure AD authentication.
+Configure MSAL module with appropriate client ID, authority, and redirect URI.
+
+HTTP Interceptor:
+Create an Angular HTTP interceptor to automatically attach the Bearer token to outgoing HTTP requests targeting the backend API.
+
+Route Guard:
+Implement an AuthGuard to protect routes/pages based on authentication status.
+Redirect unauthenticated users to the custom "Not Authorized" page.
+
+Not Authorized Page:
+Create a user-friendly "Not Authorized" page to display when access is denied.
+Include messaging and navigation options (e.g., back to home or login).
  
