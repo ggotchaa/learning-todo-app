@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subscription } from 'rxjs';
-import { map, shareReplay, take } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 
 import { ApiEndpointService } from '../../../core/services/api.service';
 import { HomeFiltersService } from '../services/home-filters.service';
@@ -116,12 +116,20 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
   // data
   private loadReports(): void {
-    this.reports$ = this.apiEndpoints
-      .getBiddingReports()
-      .pipe(
-        map((reports) => reports.map((report) => this.mapReport(report))),
-        shareReplay({ bufferSize: 1, refCount: true })
-      );
+    this.reports$ = combineLatest([this.filters.selectedMonth$, this.filters.selectedYear$]).pipe(
+      switchMap(([monthName, year]) => {
+        const month = this.toMonthNumberForFilter(monthName);
+        const numericYear = this.toNumericYear(year);
+
+        if (month !== null && numericYear !== null) {
+          return this.apiEndpoints.getBiddingReports({ month, year: numericYear });
+        }
+
+        return this.apiEndpoints.getBiddingReports();
+      }),
+      map((reports) => reports.map((report) => this.mapReport(report))),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   private mapReport(report: BiddingReport): ReportsRow {
@@ -150,6 +158,41 @@ export class ReportsComponent implements OnInit, OnDestroy {
       return monthIndex;
     }
     return ReportsComponent.MONTH_NAMES[monthNumber - 1] ?? monthIndex;
+  }
+
+  private toMonthNumberForFilter(monthName: string | null | undefined): number | null {
+    if (!monthName) {
+      return null;
+    }
+
+    const normalized = monthName.trim().toLowerCase();
+    if (!normalized || normalized === 'all' || normalized === 'all months') {
+      return null;
+    }
+
+    const index = ReportsComponent.MONTH_NAMES.findIndex(
+      (name) => name.toLowerCase() === normalized
+    );
+
+    return index >= 0 ? index + 1 : null;
+  }
+
+  private toNumericYear(year: number | string | null | undefined): number | null {
+    if (typeof year === 'number' && Number.isFinite(year)) {
+      return year;
+    }
+
+    if (typeof year === 'string') {
+      const trimmed = year.trim().toLowerCase();
+      if (!trimmed || trimmed === 'all years' || trimmed === 'all') {
+        return null;
+      }
+
+      const parsed = Number(year);
+      return Number.isFinite(parsed) ? parsed : null;
+    }
+
+    return null;
   }
 
   private isLocked(status: string | null | undefined): boolean {
