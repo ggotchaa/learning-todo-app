@@ -7,6 +7,7 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ReportsComponent } from './reports/reports.component';
+import { ReportDetailsDialogComponent } from './reports/report-details-dialog/report-details-dialog.component';
 import { HomeFiltersService } from './services/home-filters.service';
 import { TenderAwardsComponent } from './tender-awards/tender-awards.component';
 import { TenderStatusDialogComponent } from './tender-awards/status-change-dialog/tender-status-dialog.component';
@@ -15,6 +16,7 @@ import { TenderStatusDialogComponent } from './tender-awards/status-change-dialo
   declarations: [
     HomePageComponent,
     ReportsComponent,
+    ReportDetailsDialogComponent,
     CustomerListComponent,
     TenderAwardsComponent,
     TenderStatusDialogComponent

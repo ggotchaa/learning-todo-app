@@ -11,5 +11,9 @@ export class ApiEndpointService {
   getBiddingReports(): Observable<BiddingReport[]> {
     return this.api.get<BiddingReport[]>('/BiddingReports');
   }
+
+  getBiddingReport(reportId: number): Observable<BiddingReport> {
+    return this.api.get<BiddingReport>(`/BiddingReports/${reportId}`);
+  }
 }
 

@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, take } from 'rxjs/operators';
 
 import { ApiEndpointService } from '../../../core/services/api.service';
 import { HomeFiltersService } from '../services/home-filters.service';
 import { BiddingReport } from './bidding-report.interface';
+import { ReportDetailsDialogComponent } from './report-details-dialog/report-details-dialog.component';
 
 interface ReportsRow {
   id: number;
@@ -45,7 +47,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly apiEndpoints: ApiEndpointService,
-    private readonly filters: HomeFiltersService
+    private readonly filters: HomeFiltersService,
+    private readonly dialog: MatDialog
   ) {
     this.selectedMonth = this.filters.selectedMonth;
     this.selectedYear = this.filters.selectedYear;
@@ -88,6 +91,27 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
   trackByReportId(_: number, row: ReportsRow): number {
     return row.id;
+  }
+
+  openReportDetails(row: ReportsRow): void {
+    const loadReport$ = this.apiEndpoints
+      .getBiddingReport(row.id)
+      .pipe(take(1))
+      .subscribe({
+        next: (report) => {
+          this.dialog.open(ReportDetailsDialogComponent, {
+            data: report,
+            maxWidth: '900px',
+            width: '90vw'
+          });
+        },
+        error: (error) => {
+          // eslint-disable-next-line no-console
+          console.error('Failed to load bidding report details', error);
+        }
+      });
+
+    this.subscription.add(loadReport$);
   }
 
   // data

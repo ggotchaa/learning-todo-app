@@ -10,6 +10,7 @@ export interface BiddingReport {
   weightedAvgButanePrice: number | null;
   weightedAvgPropanePrice: number | null;
   weightedTotalPrice: number | null;
+  biddingHistoryAnalysis: string | null;
   previousReportLink: string | null;
   filePath: string;
   fileName: string;
