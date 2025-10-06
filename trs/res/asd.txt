@@ -1,0 +1,617 @@
+⚙️ CAL Angular Configuration
+📋 Table of Contents
+🎯 Overview
+🗂️ Creating the CAL Configuration File
+🧩 Registering CalAngularModule
+✨ Example Usage of CAL Angular
+🎯 Overview
+💡 Before you begin, make sure you have an Azure App Registration This identifies your application to Azure AD and gives it permission to authenticate users. For more details, check these documents: 🔗Authenticating with App Registrations 🔗Configuring Your App Registration
+
+💡 Ensure that you have CAL Angular installed. If not, run this command: npm install @cvx/cal-angular
+
+Before you begin, please note that this guide demonstrates the Angular 19 standalone approach. If you are using the module-based approach, you may not see app.config.ts. However, both standalone and module approaches use the same method for configuring CAL Angular: CalAngularModule.forRoot
+
+With CalAngularModule.forRoot, you can take advantage of the 🔗ConfigService, which is designed to load and access configuration from external sources.
+
+🗂️ Creating the CAL Configuration File
+🔎 First, ensure the assets folder exists within your src directory. If it does not, please create it.
+📝 Then, add a configuration file named config.json to this folder. Using config.json is strongly recommended for CAL config, as other names may lead to deployment issues. Copy and paste the CAL configuration properties below into your file.
+
+💡 Note: In the sample configuration, the clientId field is left blank. Be sure to provide your own clientId which is typically available in your Key Vault.
+
+
+{
+    "autoSignIn": false,
+    "popupForLogin": true,
+    "cacheLocation": "localStorage",
+    "instance": "https://login.microsoftonline.com/",
+    "tenantId": "fd799da1-bfc1-4234-a91c-72b3a1cb9e26",
+    "clientId": "",
+    "redirectUri": "http://localhost:4200",
+    "oidcScopes": [
+        "openid",
+        "profile",
+        "offline_access",
+        "User.Read"
+    ],
+    "graphScopes": [
+        "User.Read",
+        "User.Read.All"
+    ]
+}   
+📖 To learn more about CAL configuration properties, please see: 🔗Config.ts
+
+📖 For details on cacheLocation options, visit: 🔗Token Caching.
+
+💡 Note: Items stored in cache include tokens and claims.
+
+💡 If you want a dynamic configuration of CAL during deployment, use Azure App Service Ansible roles in your pipeline.
+
+References:
+
+👤 🔗Role Variables — Read the RoleVariables.md and search for azure_app_service_angular_app_settings
+📋 🔗Angular Example Playbook - Read the ExamplePlaybooks.md and search for Angular App Settings
+🧩 Registering CalAngularModule
+✅ Once you have created your configuration file, the next step is to register CalAngularModule in your Angular application.
+
+🏗️ For the Angular 19 standalone approach, add the registration to app.config.ts
+🏛️ For the module-based approach, add it to app.module.ts
+🔧 The CalAngularModule provides a method called forRoot which accepts the path to your CAL configuration file. For example: CalAngularModule.forRoot('assets/config.json')
+
+📚 Below are examples for both approaches:
+
+🅰️ Angular 19 Standalone Approach:
+
+
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { routes } from './app.routes';
+import { BrowserModule } from '@angular/platform-browser';
+import { CalAngularModule } from '@cvx/cal-angular';
+import { provideHttpClient } from '@angular/common/http';
+
+export const applicationConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    importProvidersFrom(
+      BrowserModule,
+      RouterModule,
+      // Loads CAL configuration and provides CAL services (ConfigService, CalAngularService, RoleGuardService, CalGuardService, etc.)
+      CalAngularModule.forRoot('assets/config.json')
+    ),
+    provideHttpClient(),
+  ],
+};
+
+📦 Module-Based Approach:
+
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+// app routing is required if you would like to use CAL Guard
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+import { CalAngularModule } from 'cal-angular';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    CalAngularModule.forRoot('assets/config.json'),
+    AppRoutingModule,
+    ReactiveFormsModule
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+Registering CalAngularModule.forRoot('assets/config.json') enables you to use the following CAL services throughout your Angular application:
+
+🛠️ ConfigService – Loads and provides access to CAL configuration from external sources.
+🔐 CalAngularService – Main service for authentication, user claims, and related functionality (🔗cal-angular.service.ts).
+🛡️ RoleGuardService – Protects routes based on user roles and permissions.
+🚪 CalGuardService – Protects routes that require authentication
+✨ Example Usage of CAL Angular
+Once your configuration is complete, you can start using CAL Angular in your application. Below is a simple example demonstrating how to use both the CalAngularService and ConfigService
+
+
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { CalAngularService, ConfigService } from '@cvx/cal-angular';
+@Component({
+  selector: 'app-simple',
+  imports: [CommonModule],
+  templateUrl: './simple.component.html',
+  styleUrl: './simple.component.css',
+})
+export class SimpleComponent implements OnInit {
+  private calService = inject(CalAngularService);
+  protected configService = inject(ConfigService);
+  userName: string = '';
+
+  ngOnInit() {
+    this.calService.isUserSignedIn().subscribe((isSignedIn) => {
+      if (isSignedIn) {
+        this.userName = this.calService.getAccount()?.username;
+      }
+    });
+  }
+}
+
+<p>👋 Welcome, {{ userName }}!</p>
+<p>🔄 Auto Sign-In: {{ configService.getSettings("autoSignIn") }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+🛡️ Using the CAL Guard
+CAL Guard provides a robust solution for securing routes in your Angular application.
+
+When CAL Guard is added to your app routing, any route protected by CAL Guard will automatically redirect users to the login page if they are not signed in.
+
+⚙️ Configuration
+To use CAL Guard, first enable 🔗app routing  in your Angular application.
+
+After enabling routing, update your app.routes.ts file as shown below:
+
+
+import { Routes } from '@angular/router';
+import { CalGuardService } from '@cvx/cal-angular';
+import { SecuredComponent } from './components/cal-guard/secured.component';
+import { SimpleComponent } from './components/simple/simple.component';
+
+export const routes: Routes = [
+  {
+    path: 'cal-guard',
+    component: SecuredComponent,
+    // This route is secured by CalGuardService.
+    // Only authenticated users can access this component.
+    canActivate: [CalGuardService]
+  },
+  {
+    path: 'simple',
+    component: SimpleComponent,
+  }
+];
+
+💡 In the example above, the SecuredComponent route is protected by CalGuardService You can add CalGuardService to any route that requires authentication.
+
+🖼️ Update the HTML
+After updating your app.routes.ts file, add navigation links to your components in your HTML as follows:
+
+
+  <nav>
+    <ul>
+      <li><a routerLink="/cal-guard" routerLinkActive="active">Cal Guard Test</a></li>
+      <li><a routerLink="/simple" routerLinkActive="active">Simple Component</a></li>
+    </ul>
+  </nav>
+  <router-outlet></router-outlet>
+🎯 Whenever a user navigates to a route protected by CAL Guard, they will be redirected or prompted to log in if they are not already authenticated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Using the Role Guard
+⚠️ Note: Role Guard is designed to help secure client-side routing in your Angular application using Role-Based Access Control (RBAC). However, it should not be relied upon to restrict access to backend or API routes. For true security, always enforce authorization on the backend.
+
+🔐 Role Guard enables you to protect Angular routes based on user roles.
+
+When Role Guard is added to your app routing, each protected route checks the user's roles before granting access. If the user does not have the required role, access to the route is denied.
+
+⚙️ Configuration
+To use Role Guard, first enable 🔗app routing  in your Angular application.
+
+After enabling routing, update your app.routes.ts file as shown below:
+
+
+import { Routes } from '@angular/router';
+import { CalGuardService, RoleGuardService } from '@cvx/cal-angular';
+import { RoleGuardComponent } from './components/role-guard/role-guard.component';
+import { CalAndRoleGuardComponent } from './components/cal-and-role-guard/cal-and-role-guard.component';
+import { SimpleComponent } from './components/simple/simple.component';
+
+export const routes: Routes = [
+  {
+    path: 'role-guard',
+    component: RoleGuardComponent,
+    // This route is secured by RoleGuardService.
+    // Only authenticated users with the required roles (defined in route data) can access this component.
+    canActivate: [RoleGuardService],
+    data: {
+      roles: ['Testing.Read'],
+    },
+  },
+  {
+    path: 'cal-and-role-guard',
+    component: CalAndRoleGuardComponent,
+    // Secured by CalGuardService and RoleGuardService.
+    // Accessible only to authenticated users with the required roles.
+    canActivate: [CalGuardService, RoleGuardService],
+    data: {
+      roles: ['Testing.Read'],
+    },
+  },
+  {
+    path: 'simple',
+    component: SimpleComponent,
+  }
+];
+💡 In the example above, CalAndRoleGuardComponent is protected by both CalGuardService and RoleGuardService while RoleGuardComponent uses only RoleGuardService You can add these guards to any route that requires authentication and role-based access.
+
+It is recommended to use RoleGuardService together with CalGuardService for enhanced security. For more advanced scenarios, you can implement custom route guards by following the 🔗Angular documentation .
+
+🖼️ Update the HTML
+After updating your app.routes.ts file, add navigation links to your components in your HTML as follows:
+
+
+  <nav>
+    <ul>
+      <li><a routerLink="/role-guard" routerLinkActive="active">Role Guard Test</a></li>
+      <li><a routerLink="/cal-and-role-guard" routerLinkActive="active">Cal Guard and Role Guard Test</a></li>
+      <li><a routerLink="/simple" routerLinkActive="active">Simple Component</a></li>
+    </ul>
+  </nav>
+  <router-outlet></router-outlet>
+🎯 Whenever a user navigates to a route protected by Role Guard, CAL Guard will redirect or prompt the user to log in if they are not authenticated, and Role Guard will verify the user's roles before granting access.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Retrieving Data from an API
+📋 Table of Contents
+🎯 Overview
+🔎 CAL Angular public API methods related to token claims
+👤 getAccount()
+🔑 getAccessTokenFromCache()
+🆔 getIdTokenClaims()
+🔐 getAADToken()
+📞 Call Microsoft Graph API using getAADToken
+🎯 Overview
+This guide explains how to securely retrieve data from APIs using CAL Angular. Whether you are accessing Microsoft Graph, custom APIs, or third-party services, CAL Angular streamlines authentication by managing access tokens from Azure Active Directory (Microsoft Entra ID).
+
+In Angular applications, implementing secure API authentication can be complex. CAL Angular simplifies this process by handling authentication flows, token storage, and renewal automatically.
+
+With CAL Angular, you can make API calls as you normally would in JavaScript or TypeScript. The library automatically acquires, caches, and renews access tokens, providing them as bearer tokens in your HTTP request headers.
+
+💡 Token Management: CAL Angular manages token expiration for you. Tokens are cached in localStorage, and silent renewal requests are sent to Microsoft Entra ID when tokens near expiration.
+
+In this guide, you will learn:
+
+How to use four CAL Angular public methods for token and claims management:
+
+getAccount()
+getAccessTokenFromCache()
+getIdTokenClaims()
+getAADToken()
+How to retrieve access tokens for specific API scopes
+
+How to make secure API calls to Microsoft Graph and other APIs using bearer tokens generated by CAL Angular
+
+💡 Prerequisite: Ensure CAL Angular is configured and the user is signed in. See 🔗Configuration for setup instructions.
+
+🔎 CAL Angular public API methods related to token claims
+👤 getAccount()
+Use this method 🔗getAccount() to get the current signed-in user's account information. It's useful when you need to display the user's name, email, or other profile details in your application.
+
+
+getAccount(): AccountInfo | null
+Returns: The user's account information 🔗AccountInfo  if someone is signed in, or null if no one is logged in.
+
+💡 Note: CAL currently supports one user at a time.
+
+
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { CalAngularService } from '@cvx/cal-angular';
+import { AccountInfo } from '@azure/msal-browser';
+
+@Component({
+  selector: 'app-simple',
+  imports: [CommonModule],
+  templateUrl: './simple.component.html',
+  styleUrl: './simple.component.css'
+})
+export class SimpleComponent implements OnInit {
+  private calService = inject(CalAngularService);
+  account: AccountInfo | null = null;
+
+  ngOnInit() {
+    this.calService.isUserSignedIn().subscribe(isSignedIn => {
+      if (isSignedIn) {
+        this.account = this.calService.getAccount();
+      }
+    });
+  }
+}
+
+<div>
+  <h2>Account Information</h2>
+  @if (account) {
+    <div>
+      <p><strong>Account:</strong></p>
+      <pre>{{ account | json }}</pre>
+    </div>
+  } @else {
+    <p>No account information found</p>
+  }
+</div>
+🎯🚩 try the live example: 🔗getAccount 
+
+🔑 getAccessTokenFromCache()
+Use this method 🔗getAccessTokenFromCache() to retrieve an access token from the browser's cache. This is useful when you need to quickly check if a token is already available without making a network request.
+
+💡 Recommended: For most scenarios, the best and most reliable way to retrieve an access token is to use the 🔗getAADToken method. This method handles token acquisition, renewal, and caching automatically, ensuring your API calls are secure and up-to-date.
+
+
+getAccessTokenFromCache(): string | null
+Returns: The cached access token as a string if available, or null if no token is found in cache.
+
+💡 NOTE: If the user successfully Sign in, CAL Angular will create a cache for your claims principal. Based on your CAL Config, it will be saved in either sessionStorage or localStorage. The cache key is usually cachedCvxClaimsPrincipal. You can check this in your browser's developer tools—for example, in Edge, press F12 and go to the Application tab > Storage. Signing out will also remove your claims from the cache.
+
+
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { CalAngularService } from '@cvx/cal-angular';
+
+@Component({
+  selector: 'app-simple',
+  imports: [CommonModule],
+  templateUrl: './simple.component.html',
+  styleUrl: './simple.component.css'
+})
+export class SimpleComponent implements OnInit {
+  private calService = inject(CalAngularService);
+  accessToken: string | null = null;
+
+  ngOnInit() {
+    this.calService.isUserSignedIn().subscribe(isSignedIn => {
+      if (isSignedIn) {
+        this.accessToken = this.calService.getAccessTokenFromCache();
+      }
+    });
+  }
+}
+
+<div>
+  <h2>Access Token from Cache</h2>
+  @if (accessToken) {
+    <div>
+      <p><strong>Token:</strong></p>
+      <pre>{{ accessToken }}</pre>
+    </div>
+  } @else {
+    <p>No access token found in cache</p>
+  }
+</div>
+🎯🚩 try the live example, go to Access Token (Cache) tab: 🔗getAccessTokenFromCache 
+
+🆔 getIdTokenClaims()
+Use this method 🔗getIdTokenClaims() to get the ID token claims for the currently signed-in user. The method signature is:
+
+
+getIdTokenClaims(): object | null
+Returns: An object containing the ID token claims if the user is signed in, or null if no user is signed in.
+
+This is useful when you need to access information about the user that is present in the ID token, such as their name, email, or other claims issued by Microsoft Entra ID (Azure AD).
+
+
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { CalAngularService } from '@cvx/cal-angular';
+
+@Component({
+  selector: 'app-simple',
+  imports: [CommonModule],
+  templateUrl: './simple.component.html',
+  styleUrl: './simple.component.css'
+})
+export class SimpleComponent implements OnInit {
+  private calService = inject(CalAngularService);
+  idTokenClaims: object | null = null;
+
+  ngOnInit() {
+    this.calService.isUserSignedIn().subscribe(isSignedIn => {
+      if (isSignedIn) {
+        this.idTokenClaims = this.calService.getIdTokenClaims();
+      }
+    });
+  }
+}
+
+<div>
+  <h2>ID Token Claims</h2>
+  @if (idTokenClaims) {
+    <div>
+      <p><strong>Claims:</strong></p>
+      <pre>{{ idTokenClaims | json }}</pre>
+    </div>
+  } @else {
+    <p>No ID token claims found</p>
+  }
+</div>
+🎯🚩 try the live example: 🔗getIdTokenClaims 
+
+🔐 getAADToken()
+Use this method 🔗getAADToken() to acquire an Azure Active Directory (AAD) access token for calling protected APIs such as Microsoft Graph or your own backend services.
+
+Signature:
+
+
+getAADToken(scopes?: string[]): Promise<string | AuthenticationResult | null>
+scopes (optional): An array of strings representing the scopes required for the API call. If omitted, the default scopes configured in CAL will be used.
+Returns: A Promise that resolves to either:
+a string (the raw access token),
+an 🔗AuthenticationResult  object (which includes the token and additional metadata),
+or null if no token is available or the user is not signed in.
+The AuthenticationResult object contains properties such as accessToken, idToken, expiresOn, account, and more, providing detailed information about the authentication response.
+
+This method handles token acquisition, caching, and renewal automatically. If a valid token is already cached, it will be returned; otherwise, CAL will attempt to silently acquire a new token, or prompt the user if necessary.
+
+
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { CalAngularService } from '@cvx/cal-angular';
+import { AuthenticationResult } from '@azure/msal-browser';
+import { switchMap } from 'rxjs';
+
+@Component({
+  selector: 'app-simple',
+  imports: [CommonModule],
+  templateUrl: './simple.component.html',
+  styleUrl: './simple.component.css',
+})
+export class SimpleComponent implements OnInit {
+  private calService = inject(CalAngularService);
+  aadToken: string | AuthenticationResult | null = null;
+
+  ngOnInit() {
+    this.calService
+      .isUserSignedIn()
+      .pipe(
+        switchMap((isSignedIn: boolean) => {
+          if (!isSignedIn) return [null];
+          return this.calService.getAADToken();
+        })
+      )
+      .subscribe({
+        next: (token: string | AuthenticationResult | null) =>
+          (this.aadToken = token),
+        error: () => (this.aadToken = null),
+      });
+  }
+}
+
+<div>
+  <h2>AAD Token</h2>
+  @if (aadToken) {
+    <div>
+      <p><strong>Token:</strong></p>
+      <pre>{{ aadToken | json }}</pre>
+    </div>
+  } @else {
+    <p>No AAD token found</p>
+  }
+</div>
+🎯🚩 try the live example, go to AAD Token tab: 🔗getAADToken 
+
+📞 Call Microsoft Graph API using getAADToken
+Below is a sample of how to use the AAD token returned by getAADToken() to call a protected API. In this example, we fetch the signed-in user's profile from the Microsoft Graph API (/me endpoint) using Angular's HttpClient. The code demonstrates how to:
+
+Acquire an access token (either as a string or as part of an AuthenticationResult)
+Extract the access token from the result
+Add the token to the Authorization header as a Bearer token
+Make an authenticated HTTP GET request to Microsoft Graph
+Handle and display the API response in your Angular component
+You can adapt this pattern to call any API that requires a bearer token for authentication—just change the endpoint URL and scopes as needed.
+
+
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { CalAngularService } from '@cvx/cal-angular';
+import { AuthenticationResult } from '@azure/msal-browser';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-simple',
+  imports: [CommonModule],
+  templateUrl: './simple.component.html',
+  styleUrl: './simple.component.css',
+})
+export class SimpleComponent implements OnInit {
+  private calService = inject(CalAngularService);
+  private http = inject(HttpClient);
+  accessToken: string | null = null;
+  graphApiResult: unknown = null;
+
+  ngOnInit() {
+    this.calService.getAADToken().subscribe({
+      next: (token) => {
+        this.accessToken =
+          typeof token === 'string'
+            ? token
+            : token && typeof token === 'object' && 'accessToken' in token
+            ? (token as AuthenticationResult).accessToken
+            : null;
+      },
+      error: () => {
+        this.accessToken = null;
+      },
+    });
+  }
+
+  fetchGraphData() {
+    if (!this.accessToken) {
+      this.graphApiResult = { error: 'No access token available' };
+      return;
+    }
+    this.http
+      .get('https://graph.microsoft.com/v1.0/me', {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      })
+      .subscribe({
+        next: (data: unknown) => {
+          this.graphApiResult = data;
+        },
+        error: () => {
+          this.graphApiResult = { error: true };
+        },
+      });
+  }
+}
+
+<div>
+  <button (click)="fetchGraphData()" [disabled]="!accessToken">
+    Fetch MS Graph Data
+  </button>
+  <h2>MS Graph API Result</h2>
+  @if (graphApiResult) {
+  <pre>{{ graphApiResult | json }}</pre>
+  } @else {
+  <p>No Graph API data</p>
+  }
+</div>
