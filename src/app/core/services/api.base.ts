@@ -7,7 +7,6 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
-  RawAxiosRequestHeaders
 } from 'axios';
 import { firstValueFrom, from, isObservable, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -88,19 +87,17 @@ export class ApiService {
   private attachAuthorizationHeader(config: InternalAxiosRequestConfig, token: string): void {
     const headerValue = `Bearer ${token}`;
 
+    let headers: AxiosHeaders;
+
     if (config.headers instanceof AxiosHeaders) {
-      config.headers.set('Authorization', headerValue);
-      return;
+      headers = config.headers;
+    } else {
+      headers = AxiosHeaders.from(config.headers ?? {});
     }
 
-    const headers: RawAxiosRequestHeaders = {
-      ...(config.headers ?? {}),
-      Authorization: headerValue
-    };
-
-    config.headers = AxiosHeaders.from(headers);
+    headers.set('Authorization', headerValue);
+    config.headers = headers;
   }
-
   private async acquireAccessToken(): Promise<string | undefined> {
     const scopes = this.resolveScopes();
 
