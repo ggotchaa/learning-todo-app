@@ -16,7 +16,7 @@ describe('AppComponent', () => {
       providers: [
         {
           provide: CalAuthService,
-          useValue: { initialize: jasmine.createSpy('initialize') }
+          useValue: {}
         }
       ]
     }).compileComponents();
