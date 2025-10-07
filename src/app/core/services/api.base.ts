@@ -1,24 +1,18 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { CalAngularService, ConfigService } from '@cvx/cal-angular';
-import type { AuthenticationResult } from '@azure/msal-browser';
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig
 } from 'axios';
-import { firstValueFrom, from, isObservable, Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 const DEFAULT_API_BASE_URL = environment.apiBaseUrl;
 
 type RequestConfig = AxiosRequestConfig;
-type AadTokenResult = string | AuthenticationResult | null | undefined;
-type AadTokenResultSource =
-  | Promise<AadTokenResult>
-  | Observable<AadTokenResult>
-  | AadTokenResult;
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -102,70 +96,6 @@ export class ApiService {
   private async acquireAccessToken(): Promise<string | undefined> {
     const scopes = this.resolveScopes();
 
-    const token = await this.acquireTokenViaGetAADToken(scopes);
-
-    if (token) {
-      return token;
-    }
-
-    return this.acquireTokenViaLegacyStrategies(scopes);
-  }
-
-  private async acquireTokenViaGetAADToken(scopes: string[]): Promise<string | undefined> {
-    const service = this.calAngularService as unknown as {
-      getAADToken?: (scopes?: string[]) => AadTokenResultSource;
-    };
-
-    const getAADToken = service.getAADToken;
-
-    if (typeof getAADToken !== 'function') {
-      return undefined;
-    }
-
-    try {
-      const result = getAADToken.call(
-        service,
-        scopes.length > 0 ? scopes : undefined
-      );
-
-      const resolved = await this.resolveTokenResult(result);
-
-      return this.normalizeAccessToken(resolved);
-    } catch (error) {
-      console.error('CAL token acquisition using "getAADToken" failed.', error);
-      return undefined;
-    }
-  }
-
-  private async resolveTokenResult(result: AadTokenResultSource): Promise<AadTokenResult> {
-    if (isObservable(result)) {
-      return firstValueFrom(result);
-    }
-
-    if (result && typeof (result as PromiseLike<unknown>).then === 'function') {
-      return result as Promise<AadTokenResult>;
-    }
-
-    return result as AadTokenResult;
-  }
-
-  private normalizeAccessToken(token: AadTokenResult): string | undefined {
-    if (typeof token === 'string' && token.trim().length > 0) {
-      return token;
-    }
-
-    if (token && typeof token === 'object' && 'accessToken' in token) {
-      const accessToken = (token as AuthenticationResult).accessToken;
-
-      if (typeof accessToken === 'string' && accessToken.trim().length > 0) {
-        return accessToken;
-      }
-    }
-
-    return undefined;
-  }
-
-  private async acquireTokenViaLegacyStrategies(scopes: string[]): Promise<string | undefined> {
     const service = this.calAngularService as unknown as {
       acquireToken?: (scopes?: string[]) => Promise<string | undefined>;
       getAccessToken?: (scopes?: string[]) => Promise<string | undefined>;
@@ -182,7 +112,7 @@ export class ApiService {
       }
 
       try {
-        const token = await fn.call(service, scopes.length > 0 ? scopes : undefined);
+        const token = await fn.call(service, scopes);
 
         if (token) {
           return token;
