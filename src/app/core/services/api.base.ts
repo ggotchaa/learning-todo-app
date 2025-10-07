@@ -2,12 +2,10 @@ import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { CalAngularService, ConfigService } from '@cvx/cal-angular';
 import type { AuthenticationResult } from '@azure/msal-browser';
 import axios, {
-  AxiosHeaders,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-  InternalAxiosRequestConfig,
-  RawAxiosRequestHeaders
+  InternalAxiosRequestConfig
 } from 'axios';
 import { firstValueFrom, from, isObservable, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -88,17 +86,17 @@ export class ApiService {
   private attachAuthorizationHeader(config: InternalAxiosRequestConfig, token: string): void {
     const headerValue = `Bearer ${token}`;
 
-    if (config.headers instanceof AxiosHeaders) {
-      config.headers.set('Authorization', headerValue);
+    const headerContainer = config.headers as { set?: (name: string, value: string) => void } & Record<string, unknown>;
+
+    if (typeof headerContainer?.set === 'function') {
+      headerContainer.set('Authorization', headerValue);
       return;
     }
 
-    const headers: RawAxiosRequestHeaders = {
+    config.headers = {
       ...(config.headers ?? {}),
       Authorization: headerValue
-    };
-
-    config.headers = AxiosHeaders.from(headers);
+    } as Record<string, unknown>;
   }
 
   private async acquireAccessToken(): Promise<string | undefined> {
