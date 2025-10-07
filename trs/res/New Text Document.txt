@@ -1,0 +1,20 @@
+in src\app\core\services\cal-auth.service.ts its trying to do an /auth request to a backend. but according to a documentation the authourization will be only on front end via cvx library. 
+
+Display name:
+TCO Bidding automation - dev
+Application (client) ID:
+0a2e995a-d7de-4b86-9c19-462c2225806c
+Object ID:
+5832fbb6-4e7e-4391-9dda-4a300dc7461e
+Directory (tenant) ID:
+fd799da1-bfc1-4234-a91c-72b3a1cb9e26
+Supported account types:
+My organization only
+Client credentials:
+0 certificate, 3 secret
+Redirect URIs:
+5 web, 1 spa, 0 public client
+Application ID URI:
+https://tcobid-dev.azure.chevron.com
+Managed application in local directory:
+TCO Bidding automation - dev

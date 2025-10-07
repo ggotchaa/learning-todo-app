@@ -1,0 +1,19 @@
+{
+    "autoSignIn": false,
+    "popupForLogin": true,
+    "cacheLocation": "localStorage",
+    "instance": "https://login.microsoftonline.com/",
+    "tenantId": "fd799da1-bfc1-4234-a91c-72b3a1cb9e26",
+    "clientId": "ddc6e1c9-ffbb-47ba-9328-cd0a2f45eb9c",
+    "redirectUri": "http://localhost:4200",
+    "oidcScopes": [
+        "openid",
+        "profile",
+        "offline_access",
+        "User.Read"
+    ],
+    "graphScopes": [
+        "User.Read",
+        "User.Read.All"
+    ]
+}   
