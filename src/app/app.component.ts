@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CalAuthService } from './core/services/cal-auth.service';
 
 @Component({
@@ -6,6 +6,10 @@ import { CalAuthService } from './core/services/cal-auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private readonly calAuthService: CalAuthService) {}
+
+  ngOnInit(): void {
+    this.calAuthService.initialize();
+  }
 }

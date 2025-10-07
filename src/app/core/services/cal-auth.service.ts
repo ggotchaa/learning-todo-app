@@ -1,144 +1,63 @@
-import { Injectable, OnDestroy, computed, signal } from '@angular/core';
-import { CalAngularService, ICvxClaimsPrincipal } from '@cvx/cal-angular';
-import { Observable, Subscription, catchError, tap, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { CalAngularService, ConfigService } from '@cvx/cal-angular';
+import { EMPTY, Observable, catchError, filter, switchMap, take, tap } from 'rxjs';
+
+import { ApiService } from './api.base';
 
 @Injectable({ providedIn: 'root' })
-export class CalAuthService implements OnDestroy {
-  private authStateSubscription?: Subscription;
+export class CalAuthService {
+  private initialized = false;
 
-  private readonly _isSignedIn = signal<boolean>(false);
-  private readonly _userName = signal<string>('');
-  private readonly _claims = signal<ICvxClaimsPrincipal | null>(null);
-  private readonly _isLoading = signal<boolean>(false);
-  private readonly _error = signal<string | null>(null);
+  constructor(
+    private readonly calAngularService: CalAngularService,
+    private readonly configService: ConfigService,
+    private readonly apiService: ApiService
+  ) {}
 
-  readonly isSignedIn = this._isSignedIn.asReadonly();
-  readonly userName = this._userName.asReadonly();
-  readonly claims = this._claims.asReadonly();
-  readonly isLoading = this._isLoading.asReadonly();
-  readonly error = this._error.asReadonly();
-
-  readonly welcomeMessage = computed(() => {
-    if (this._isLoading()) {
-      return 'Loading...';
+  initialize(): void {
+    if (this.initialized) {
+      return;
     }
 
-    const userName = this._userName();
-    return userName ? `Welcome ${userName}!` : 'Please Sign In.';
-  });
+    this.initialized = true;
 
-  readonly authStatus = computed(() => {
-    if (this._error()) {
-      return '❌ Error';
-    }
-
-    if (this._isLoading()) {
-      return '🔄 Loading';
-    }
-
-    return this._isSignedIn() ? '✅ Authenticated' : '🔒 Not Authenticated';
-  });
-
-  constructor(private readonly calAngularService: CalAngularService) {
-    this.watchAuthState();
-  }
-
-  ngOnDestroy(): void {
-    this.authStateSubscription?.unsubscribe();
-  }
-
-  signIn(): Observable<unknown> {
-    this._isLoading.set(true);
-    this._error.set(null);
-
-    return this.calAngularService.userInitiatedSignIn().pipe(
-      tap({
-        next: (claimsPrincipal) => {
-          const claims = (claimsPrincipal ?? null) as ICvxClaimsPrincipal | null;
-          this._isSignedIn.set(true);
-          this._userName.set(claims?.name ?? '');
-          this._claims.set(claims);
-          this._isLoading.set(false);
-          this._error.set(null);
-        }
-      }),
-      catchError((error) => {
-        this._error.set('Sign in failed');
-        this._isLoading.set(false);
-        return throwError(() => error);
-      })
-    );
-  }
-
-  signOut(): Observable<boolean> {
-    this._isLoading.set(true);
-    this._error.set(null);
-
-    return this.calAngularService.userInitiatedSignOut().pipe(
-      tap({
-        next: (success: boolean) => {
-          if (success) {
-            this._isSignedIn.set(false);
-            this._userName.set('');
-            this._claims.set(null);
+    this.calAngularService
+      .isUserSignedIn()
+      .pipe(
+        tap((isSignedIn) => {
+          if (!isSignedIn) {
+            this.triggerInteractiveSignIn();
           }
-
-          this._isLoading.set(false);
-        }
-      }),
-      catchError((error) => {
-        this._error.set('Sign out failed');
-        this._isLoading.set(false);
-        return throwError(() => error);
-      })
-    );
+        }),
+        filter(Boolean),
+        take(1),
+        switchMap(() => this.authenticateWithBackend()),
+        catchError((error) => {
+          console.error('Failed to establish CAL authentication session.', error);
+          return EMPTY;
+        })
+      )
+      .subscribe();
   }
 
-  private watchAuthState(): void {
-    this._isLoading.set(true);
-    this._error.set(null);
+  private triggerInteractiveSignIn(): void {
+    const autoSignIn = this.configService.getSettings<boolean>('autoSignIn');
 
-    this.authStateSubscription = this.calAngularService.isUserSignedIn().subscribe({
-      next: (isSignedIn: boolean) => {
-        this._isSignedIn.set(isSignedIn);
-
-        if (isSignedIn) {
-          void this.loadClaims();
-        } else {
-          this.handleSignedOutState();
-        }
-      },
-      error: (error) => {
-        console.error('Failed to check CAL authentication status.', error);
-        this._error.set('Failed to check authentication status');
-        this._isLoading.set(false);
-      }
-    });
-  }
-
-  private async loadClaims(): Promise<void> {
-    try {
-      this._isLoading.set(true);
-      this._error.set(null);
-
-      const claims = await this.calAngularService.getClaims();
-      this._userName.set(claims?.name ?? '');
-      this._claims.set((claims ?? null) as ICvxClaimsPrincipal | null);
-      this._isLoading.set(false);
-      this._error.set(null);
-    } catch (error) {
-      console.error('Failed to load CAL claims.', error);
-      this._error.set('Failed to load user claims');
-      this._claims.set(null);
-      this._userName.set('');
-      this._isLoading.set(false);
+    if (autoSignIn) {
+      // auto sign-in is handled by CAL configuration
+      return;
     }
+
+    const interactiveService = this.calAngularService as unknown as {
+      signIn?: () => Promise<unknown>;
+      login?: () => Promise<unknown>;
+      loginPopup?: () => Promise<unknown>;
+    };
+
+    void (interactiveService.signIn?.() ?? interactiveService.login?.() ?? interactiveService.loginPopup?.());
   }
 
-  private handleSignedOutState(): void {
-    this._userName.set('');
-    this._claims.set(null);
-    this._isLoading.set(false);
-    this._error.set(null);
+  private authenticateWithBackend(): Observable<void> {
+    return this.apiService.post<void>('/auth');
   }
 }
