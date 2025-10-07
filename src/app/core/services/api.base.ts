@@ -58,23 +58,23 @@ export class ApiService {
   }
 
   get<T>(url: string, config?: RequestConfig): Observable<T> {
-    return this.send<T>({ ...(config ?? {}), method: 'get', url });
+    return this.send<T>({ ...config, method: 'get', url });
   }
 
   post<T>(url: string, data?: unknown, config?: RequestConfig): Observable<T> {
-    return this.send<T>({ ...(config ?? {}), method: 'post', url, data });
+    return this.send<T>({ ...config, method: 'post', url, data });
   }
 
   put<T>(url: string, data?: unknown, config?: RequestConfig): Observable<T> {
-    return this.send<T>({ ...(config ?? {}), method: 'put', url, data });
+    return this.send<T>({ ...config, method: 'put', url, data });
   }
 
   patch<T>(url: string, data?: unknown, config?: RequestConfig): Observable<T> {
-    return this.send<T>({ ...(config ?? {}), method: 'patch', url, data });
+    return this.send<T>({ ...config, method: 'patch', url, data });
   }
 
   delete<T>(url: string, config?: RequestConfig): Observable<T> {
-    return this.send<T>({ ...(config ?? {}), method: 'delete', url });
+    return this.send<T>({ ...config, method: 'delete', url });
   }
 
   private send<T>(config: RequestConfig): Observable<T> {
