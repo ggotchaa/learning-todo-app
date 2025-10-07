@@ -24,7 +24,7 @@
       "dom"
     ],
     "paths": {
-      "@cvx/cal-angular": ["src/lib/cvx-cal-angular/index"]
+      "@cvx/cal-angular": ["./src/lib/cvx-cal-angular/index"]
     }
   },
   "angularCompilerOptions": {
