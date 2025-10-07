@@ -34,7 +34,7 @@
       azure_asp_name: tcobt-{{ cvx_environment_name }}-frontend-linux-cvx
       azure_asp_is_linux: true
     - role: ansible-role-azure-app-service
-      azure_app_service_name: "{{ cvx_mnemonic }}-frontend-{{ cvx_environment_name}}"
+      azure_app_service_name: "{{ cvx_mnemonic }}-frontend-{{ cvx_environment_name }}"
       azure_app_service_asp_name: tcobt-{{ cvx_environment_name }}-frontend-linux-cvx
       azure_app_service_zip_deploy_enabled: true
       azure_app_service_bind_dns: false
@@ -47,6 +47,14 @@
       azure_app_service_startup_command: "pm2 serve /home/site/wwwroot/browser --spa --no-daemon"
       azure_app_service_cors_allow_credentials: true
       azure_app_service_auth_enabled: false
-    #- role: ansible-role-azure-app-service-bindcertificate
-    #  azure_app_service_name: "{{ cvx_mnemonic }}-frontend-{{ cvx_environment_name}}"
-    #  azure_app_service_asp_name: tcobt-{{ cvx_environment_name }}-frontend-linux-cvx
+      azure_app_service_bind_dns: true
+      azure_app_service_register_dns: true
+      azure_app_service_fqdn: 'lpgbid-{{ cvx_environment_name }}.tengizchevroil.com'
+      azure_app_service_custom_hostnames: 
+       - 'lpgbid-{{ cvx_environment_name }}.tengizchevroil.com'
+      azure_app_service_bind_dns: true
+    - role: ansible-role-azure-app-service-bindcertificate
+      azure_app_service_name: "{{ cvx_mnemonic }}-frontend-{{ cvx_environment_name }}"
+      azure_app_service_asp_name: tcobt-{{ cvx_environment_name }}-frontend-linux-cvx
+      azure_app_service_custom_hostnames: 
+       - 'lpgbid-{{ cvx_environment_name }}.tengizchevroil.com'     

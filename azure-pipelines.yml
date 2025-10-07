@@ -35,7 +35,8 @@ parameters:
     type: boolean
     default: true 
 ########################################################
-trigger: none
+trigger:
+  - dev
 
 stages:
   - template: pipeline.yml@pf
@@ -52,7 +53,7 @@ stages:
           outputPath: "/build"
           forceInstallRoles: requirements.yml
           playbook: ./main.yml
-          isDeployActive: true
+          isDeployActive: ${{ ne(variables['Build.Reason'], 'PullRequest') }}
           isBuildActive: ${{ parameters.BuildApp }}
           nodeVersion: "22.x"
           setEnvironment: "true"
