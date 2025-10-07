@@ -70,99 +70,38 @@ Include messaging and navigation options (e.g., back to home or login).
 
 
 
-
-PS C:\Users\aohc\OneDrive - Chevron\Desktop\angularjs\mtbt2\mtbt> npm install --force           
-npm warn using --force Recommended protections disabled.
-npm error code E401
-npm error Incorrect or missing password.
-npm error If you were trying to login, change your password, create an
-npm error authentication token or enable two-factor authentication then
-npm error that means you likely typed your password in incorrectly.
-npm error Please try again, or recover your password at:
-npm error   https://www.npmjs.com/forgot
-npm error
-npm error If you were doing some other operation then your saved credentials are
-npm error probably out of date. To correct this please try logging in again with:
-npm error   npm login
-npm error A complete log of this run can be found in: C:\Users\aohc\AppData\Local\npm-cache\_logs\2025-10-07T05_57_50_362Z-debug-0.log
-PS C:\Users\aohc\OneDrive - Chevron\Desktop\angularjs\mtbt2\mtbt> 
-
-
-
 PS C:\Users\aohc\OneDrive - Chevron\Desktop\angularjs\mtbt2\mtbt> npm run build
 
 > bidding-tool@0.0.0 build
 > ng build
 
-Application bundle generation failed. [10.582 seconds]
+Initial chunk files   | Names         |  Raw size | Estimated transfer size
+chunk-3OOJQ257.js     | -             | 626.26 kB |               120.37 kB
+chunk-UHTPK2TD.js     | -             | 193.93 kB |                55.32 kB
+styles-LQPN2ZAW.css   | styles        |  74.97 kB |                 8.01 kB
+polyfills-FFHMD2TL.js | polyfills     |  34.52 kB |                11.28 kB
+main-U57ZB5J7.js      | main          |   6.66 kB |                 2.18 kB
 
-X [ERROR] NG8001: 'app-header' is not a known element:
-1. If 'app-header' is an Angular component, then verify that it is part of this module.
-2. If 'app-header' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message. [plugin angular-compiler]
+                      | Initial total | 936.34 kB |               197.16 kB
 
-    src/app/app.component.html:0:0:
-      0 │ 
-        ╵ ^
+Lazy chunk files      | Names         |  Raw size | Estimated transfer size
+chunk-ZSM7U3ZJ.js     | home-module   |  63.58 kB |                13.13 kB
+chunk-E7W7CDWI.js     | browser       |  63.57 kB |                16.84 kB
 
-  Error occurs in the template of component AppComponent.
+Application bundle generation failed. [6.762 seconds]
 
-    src/app/app.component.ts:6:15:
-      6 │   templateUrl: './app.component.html',
-        ╵                ~~~~~~~~~~~~~~~~~~~~~~
-
-
-X [ERROR] NG8001: 'router-outlet' is not a known element:
-1. If 'router-outlet' is an Angular component, then verify that it is part of this module.
-2. If 'router-outlet' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message. [plugin angular-compiler]
-
-    src/app/app.component.html:5:4:
-      5 │     <router-outlet></router-outlet>
-        ╵     ~~~~~~~~~~~~~~~
-
-  Error occurs in the template of component AppComponent.
-
-    src/app/app.component.ts:6:15:
-      6 │   templateUrl: './app.component.html',
-        ╵                ~~~~~~~~~~~~~~~~~~~~~~
+▲ [WARNING] bundle initial exceeded maximum budget. Budget 512.00 kB was not met by 424.34 kB with a total of 936.34 kB.
 
 
-X [ERROR] NG8001: 'app-footer' is not a known element:
-    src/app/app.component.html:9:0:
-      9 │ <app-footer></app-footer>
-        ╵ ~~~~~~~~~~~~
-
-  Error occurs in the template of component AppComponent.
-
-    src/app/app.component.ts:6:15:
-      6 │   templateUrl: './app.component.html',
-        ╵                ~~~~~~~~~~~~~~~~~~~~~~
+▲ [WARNING] src/app/features/home/customer-list/customer-list.component.scss exceeded maximum budget. Budget 2.05 kB was not met by 896 bytes with a total of 2.94 kB.
 
 
-X [ERROR] TS-993004: Unable to import class CalAngularModule.
-  The symbol is not exported from C:/Users/aohc/OneDrive - Chevron/Desktop/angularjs/mtbt2/mtbt/node_modules/@cvx/cal-angular/index.d.ts (module '@cvx/cal-angular'). [plugin angular-compiler]
-
-    src/app/app.module.ts:23:13:
-      23 │ export class AppModule {}
-         ╵              ~~~~~~~~~
-
-  The class is declared here.
-
-    src/types/cvx-cal-angular.d.ts:5:2:
-      5 │   export class CalAngularModule {
-        ╵   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+▲ [WARNING] src/app/features/home/reports/reports.component.scss exceeded maximum budget. Budget 2.05 kB was not met by 818 bytes with a total of 2.87 kB.
 
 
-X [ERROR] TS2322: Type 'Record<string, unknown>' is not assignable to type 'AxiosRequestHeaders'.
-  Type 'Record<string, unknown>' is not assignable to type 'Partial<RawAxiosHeaders & { Accept: AxiosHeaderValue; "Content-Length": AxiosHeaderValue; "User-Agent": AxiosHeaderValue; "Content-Encoding": AxiosHeaderValue; Authorization: AxiosHeaderValue; } & { ...; }>'.
-    'string' index signatures are incompatible.
-      Type 'unknown' is not assignable to type 'AxiosHeaderValue | undefined'. [plugin angular-compiler]
-
-    src/app/core/services/api.base.ts:96:4:
-      96 │     config.headers = {
-         ╵     ~~~~~~~~~~~~~~
+▲ [WARNING] src/app/features/home/tender-awards/tender-awards.component.scss exceeded maximum budget. Budget 2.05 kB was not met by 3.32 kB with a total of 5.37 kB.
 
 
-PS C:\Users\aohc\OneDrive - Chevron\Desktop\angularjs\mtbt2\mtbt>
-
+X [ERROR] src/app/features/home/tender-awards/tender-awards.component.scss exceeded maximum budget. Budget 4.10 kB was not met by 1.27 kB with a total of 5.37 kB.
 
  
